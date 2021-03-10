@@ -3,7 +3,16 @@
 {% block title %}Accueil{% endblock %}
 
 {% block main %}
+    {% for s in sorties %}
+        Nom de la sortie : {{ s.nom }}
+        <br>
+        inscription/places :
+        <br>
+        Etat : {{ s.etat.libelle}}
 
+
+
+    {% endfor %}
 
 
 
