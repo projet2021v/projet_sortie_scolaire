@@ -55,11 +55,6 @@ class Sortie
     private $motif_annulation;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $url_photo;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Lieu::class, inversedBy="sorties")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -184,18 +179,6 @@ class Sortie
     public function setMotifAnnulation(?string $motif_annulation): self
     {
         $this->motif_annulation = $motif_annulation;
-
-        return $this;
-    }
-
-    public function getUrlPhoto(): ?string
-    {
-        return $this->url_photo;
-    }
-
-    public function setUrlPhoto(?string $url_photo): self
-    {
-        $this->url_photo = $url_photo;
 
         return $this;
     }

@@ -9,8 +9,11 @@
 
     <h1>Register!!</h1>
 
+    <form class="ui form one column centered grid">
     {{ form_start(registrationForm) }}
+
         {{ form_row(registrationForm.username) }}
+
         {{ form_row(registrationForm.plainPassword, {
             label: 'Password'
         }) }}
@@ -19,10 +22,27 @@
         {{ form_row(registrationForm.prenom) }}
         {{ form_row(registrationForm.telephone) }}
         {{ form_row(registrationForm.mail) }}
-        {{ form_row(registrationForm.administrateur) }}
-        {{ form_row(registrationForm.actif) }}
         {{ form_row(registrationForm.site) }}
-
-        <button type="submit" class="btn">Register</button>
+        {{ form_row(registrationForm.url_photo) }}
+        <div class="ui checkbox">
+        {{ form_row(registrationForm.administrateur) }}
+        </div>
+        <br>
+        <div class="ui checkbox">
+        {{ form_row(registrationForm.actif) }}
+        </div>
+        <br>
+        <button type="submit" class="ui button">Register</button>
     {{ form_end(registrationForm) }}
+    </form>
+
+
+
+
+
+
+
+
+
+
 {% endblock %}

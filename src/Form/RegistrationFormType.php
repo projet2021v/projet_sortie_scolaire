@@ -46,9 +46,11 @@ class RegistrationFormType extends AbstractType
             ->add('prenom')
             ->add('telephone')
             ->add('mail')
+            ->add('site', null, ['label'=>'Ville de rattachement', 'choice_label'=>'nom'])
+            ->add('url_photo')
             ->add('administrateur')
             ->add('actif')
-            ->add('site', null, ['label'=>'Ville de rattachement', 'choice_label'=>'nom'])
+
 
 
         ;
