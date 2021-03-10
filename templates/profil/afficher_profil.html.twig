@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon profil{% endblock %}
+
+{% block main %}
+
+    <h1>{{ participant.username }}</h1>
+
+    Prénom : {{ participant.prenom }}<br>
+    Nom : {{ participant.nom }}<br>
+    Téléphone : {{ participant.telephone }}<br>
+    Email : {{ participant.mail }}<br>
+    Ville de rattachement : {{ participant.site.nom }}<br>
+    <a type="button" href="{{ path('main') }}">Retour</a><br>
+    <a type="button" href="{{ path('modifier_profil', {'id': participant.id}) }}">Modifier le profil</a>
+{% endblock %}
