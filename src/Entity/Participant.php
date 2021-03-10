@@ -68,19 +68,25 @@ class Participant implements UserInterface
      */
     private $actif;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Sortie::class, mappedBy="participants")
-     */
-    private $sorties;
+//    /**
+//     * @ORM\ManyToMany(targetEntity=Sortie::class, mappedBy="participants")
+//     */
+//    private $sorties;
 
     /**
      * @ORM\ManyToOne(targetEntity=Site::class)
      */
     private $site;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Inscription::class, mappedBy="participant")
+     */
+    private $inscriptions;
+
     public function __construct()
     {
-        $this->sorties = new ArrayCollection();
+//        $this->sorties = new ArrayCollection();
+        $this->inscriptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -231,32 +237,32 @@ class Participant implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Sortie[]
-     */
-    public function getSorties(): Collection
-    {
-        return $this->sorties;
-    }
-
-    public function addSorty(Sortie $sorty): self
-    {
-        if (!$this->sorties->contains($sorty)) {
-            $this->sorties[] = $sorty;
-            $sorty->addParticipant($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSorty(Sortie $sorty): self
-    {
-        if ($this->sorties->removeElement($sorty)) {
-            $sorty->removeParticipant($this);
-        }
-
-        return $this;
-    }
+//    /**
+//     * @return Collection|Sortie[]
+//     */
+//    public function getSorties(): Collection
+//    {
+//        return $this->sorties;
+//    }
+//
+//    public function addSorty(Sortie $sorty): self
+//    {
+//        if (!$this->sorties->contains($sorty)) {
+//            $this->sorties[] = $sorty;
+//            $sorty->addParticipant($this);
+//        }
+//
+//        return $this;
+//    }
+//
+//    public function removeSorty(Sortie $sorty): self
+//    {
+//        if ($this->sorties->removeElement($sorty)) {
+//            $sorty->removeParticipant($this);
+//        }
+//
+//        return $this;
+//    }
 
     public function getSite(): ?Site
     {
@@ -266,6 +272,36 @@ class Participant implements UserInterface
     public function setSite(?Site $site): self
     {
         $this->site = $site;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Inscription[]
+     */
+    public function getInscriptions(): Collection
+    {
+        return $this->inscriptions;
+    }
+
+    public function addInscription(Inscription $inscription): self
+    {
+        if (!$this->inscriptions->contains($inscription)) {
+            $this->inscriptions[] = $inscription;
+            $inscription->setParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInscription(Inscription $inscription): self
+    {
+        if ($this->inscriptions->removeElement($inscription)) {
+            // set the owning side to null (unless already changed)
+            if ($inscription->getParticipant() === $this) {
+                $inscription->setParticipant(null);
+            }
+        }
 
         return $this;
     }

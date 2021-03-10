@@ -84,13 +84,19 @@ class Sortie
     private $organisateur;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Participant::class, inversedBy="sorties")
+     * @ORM\OneToMany(targetEntity=Inscription::class, mappedBy="sortie")
      */
-    private $participants;
+    private $inscriptions;
+
+//    /**
+//     * @ORM\ManyToMany(targetEntity=Participant::class, inversedBy="sorties")
+//     */
+//    private $participants;
 
     public function __construct()
     {
-        $this->participants = new ArrayCollection();
+//        $this->participants = new ArrayCollection();
+        $this->inscriptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -242,27 +248,57 @@ class Sortie
         return $this;
     }
 
-    /**
-     * @return Collection|Participant[]
-     */
-    public function getParticipants(): Collection
-    {
-        return $this->participants;
+//    /**
+//     * @return Collection|Participant[]
+//     */
+//    public function getParticipants(): Collection
+//    {
+//        return $this->participants;
+//    }
+//
+//    public function addParticipant(Participant $participant): self
+//    {
+//        if (!$this->participants->contains($participant)) {
+//            $this->participants[] = $participant;
+//        }
+//
+//        return $this;
+//    }
+//
+//    public function removeParticipant(Participant $participant): self
+//    {
+//        $this->participants->removeElement($participant);
+//
+//        return $this;
+//    }
+
+/**
+ * @return Collection|Inscription[]
+ */
+public function getInscriptions(): Collection
+{
+    return $this->inscriptions;
+}
+
+public function addInscription(Inscription $inscription): self
+{
+    if (!$this->inscriptions->contains($inscription)) {
+        $this->inscriptions[] = $inscription;
+        $inscription->setSortie($this);
     }
 
-    public function addParticipant(Participant $participant): self
-    {
-        if (!$this->participants->contains($participant)) {
-            $this->participants[] = $participant;
+    return $this;
+}
+
+public function removeInscription(Inscription $inscription): self
+{
+    if ($this->inscriptions->removeElement($inscription)) {
+        // set the owning side to null (unless already changed)
+        if ($inscription->getSortie() === $this) {
+            $inscription->setSortie(null);
         }
-
-        return $this;
     }
 
-    public function removeParticipant(Participant $participant): self
-    {
-        $this->participants->removeElement($participant);
-
-        return $this;
-    }
+    return $this;
+}
 }
