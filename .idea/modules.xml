@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/projet_sortie_scolaire.iml" filepath="$PROJECT_DIR$/.idea/projet_sortie_scolaire.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../_symfony/tp5_doctrine_listePersonnes_correction_LOGIN/.idea/tp5_doctrine_listePersonnes_correction_LOGIN.iml" filepath="$PROJECT_DIR$/../_symfony/tp5_doctrine_listePersonnes_correction_LOGIN/.idea/tp5_doctrine_listePersonnes_correction_LOGIN.iml" />
     </modules>
   </component>
 </project>
