@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une sortie{% endblock %}
+
+{% block main %}
+
+    <h1>AFFICHER UNE SORTIE</h1>
+
+    <div>
+        Nom de la sortie : {{ sortie.getNom() }}<br>
+        Date et heure de la sortie : {{ sortie.getDateHeureDebut()|date('d/m/Y à H:i') }}<br>
+        Date limite d'inscription : {{ sortie.getDateLimiteInscription()|date('d/m/Y') }}<br>
+        Nombre de places : {{ sortie.getNbInscriptionsMax() }} personnes<br>
+        Durée : {{ sortie.getDuree() }} min<br>
+        Description et infos : {{ sortie.getInfosSortie() }}<br>
+    </div>
+
+    <div>
+        Ville organisatrice : {{ sortie.getSite().getNom() }}<br>
+        Ville : {{ sortie.getLieu().getVille().getNom() }}<br>
+        Lieu : {{ sortie.getLieu().getNom() }}<br>
+        Adresse : {{ sortie.getLieu().getAdresse() }}<br>
+        Code postal : {{ sortie.getLieu().getVille().getCodePostal() }}<br>
+        Latitude : {{ sortie.getLieu().getLatitude() }}<br>
+        Longitude : {{ sortie.getLieu().getLongitude() }}
+    </div>
+
+
+{% endblock %}

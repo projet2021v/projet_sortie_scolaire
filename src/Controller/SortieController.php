@@ -14,7 +14,6 @@ class SortieController extends AbstractController
     /**
      * @Route("/sortie", name="creer_sortie")
      * @param Request $request
-     * @param Sortie $sortie
      * @return Response
      */
     public function creer_sortie(Request $request): Response
@@ -46,4 +45,51 @@ class SortieController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/sortie/{id}", name="afficher_sortie")
+     * @param Sortie $sortie
+     * @return Response
+     */
+    public function afficher_sortie(Sortie $sortie): Response
+    {
+        //affichage de la page
+        return $this->render('sortie/afficher_sortie.html.twig', [
+            'sortie' => $sortie
+        ]);
+    }
+
+
+    /**
+     * @Route("/sortie/{id}/edit", name="modifier_sortie")
+     * @param Request $request
+     * @param Sortie $sortie
+     * @return Response
+     */
+    public function modifier_sortie(Request $request, Sortie $sortie): Response
+    {
+        //création d'un formulaire sur la base de l'entité Participant
+        $form = $this->createForm(SortieType::class, $sortie);
+
+        //hydratation du formualaire
+        $form->handleRequest($request);
+
+        //si le formulaire a été soumis
+        if($form->isSubmitted() && $form->isValid()) {
+            //mise à jour de la Sortie en base
+            $this->getDoctrine()->getManager()->flush();
+
+            //redirection vers la page d'affichage de la sortie
+            return $this->redirectToRoute('afficher_sortie', ['id' => $sortie->getId()]);
+        }
+
+        //affichage de la page
+        return $this->render('sortie/modifier_sortie.html.twig', [
+            'sortie' => $sortie,
+            'form' => $form->createView()
+        ]);
+    }
+
+
+
 }

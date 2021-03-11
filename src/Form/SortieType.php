@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Sortie;
 use Symfony\Component\Form\AbstractType;
+
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,10 +22,10 @@ class SortieType extends AbstractType
             ->add('nb_inscriptions_max')
             ->add('infos_sortie')
             ->add('motif_annulation')
-            ->add('lieu', null, ['choice_label'=>'nom'])
-            ->add('etat')
-            ->add('site', null, ['choice_label'=>'nom'])
-            ->add('organisateur', null, ['choice_label'=>'nom'])
+//            ->add('lieu', null, ['choice_label'=>'nom'])
+//            ->add('etat')
+//            ->add('site', null, ['choice_label'=>'nom'])
+//            ->add('organisateur', null, ['choice_label'=>'nom'])
             
         ;
     }
