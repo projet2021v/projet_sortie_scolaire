@@ -7,9 +7,9 @@
         <div class="alert alert-danger" role="alert">{{ flashError }}</div>
     {% endfor %}
 
-    <h1>Register!!</h1>
+    <h1>Register</h1>
 
-    <form class="ui form one column centered grid">
+    <div class="ui form one column centered grid">
     {{ form_start(registrationForm) }}
 
         {{ form_row(registrationForm.username) }}
@@ -24,17 +24,13 @@
         {{ form_row(registrationForm.mail) }}
         {{ form_row(registrationForm.site) }}
         {{ form_row(registrationForm.url_photo) }}
-        <div class="ui checkbox">
         {{ form_row(registrationForm.administrateur) }}
-        </div>
         <br>
-        <div class="ui checkbox">
         {{ form_row(registrationForm.actif) }}
-        </div>
         <br>
         <button type="submit" class="ui button">Register</button>
     {{ form_end(registrationForm) }}
-    </form>
+    </div>
 
 
 
