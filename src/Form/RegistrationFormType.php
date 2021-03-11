@@ -50,9 +50,6 @@ class RegistrationFormType extends AbstractType
             ->add('url_photo')
             ->add('administrateur')
             ->add('actif')
-
-
-
         ;
     }
 

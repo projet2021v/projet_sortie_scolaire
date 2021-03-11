@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class ProfilController extends AbstractController
 {
@@ -29,9 +30,10 @@ class ProfilController extends AbstractController
      * @Route("/profil/{id}/edit", name="modifier_profil")
      * @param Request $request
      * @param Participant $participant
+     * @param UserPasswordEncoderInterface $passwordEncoder
      * @return Response
      */
-    public function modifierProfil(Request $request, Participant $participant): Response
+    public function modifierProfil(Request $request, Participant $participant, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         //création d'un formulaire sur la base de l'entité Participant
         $form = $this->createForm(ParticipantType::class, $participant);
@@ -41,6 +43,14 @@ class ProfilController extends AbstractController
 
         //si le formulaire a été soumis
         if($form->isSubmitted() && $form->isValid()) {
+
+            // encode the plain password
+            $participant->setPassword(
+                $passwordEncoder->encodePassword(
+                    $participant,
+                    $form->get('password')->getData()
+                )
+            );
 
             //mise à jour du Participant en base
             $this->getDoctrine()->getManager()->flush();
