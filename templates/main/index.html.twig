@@ -4,15 +4,97 @@
 
 {% block main %}
 
-    <div class="ui container">
-        <h1>Date du jour : {{ "now"| date("d/m/Y") }}</h1>
-        <h1>Participant : {{ app.user}} </h1>
-
-
+<div class="ui container">
+    <div class="row" >
+        <div>
+            <h1 class="ui header">Date du jour : {{ "now"| date("d/m/Y") }}</h1>
+            <h1 class="ui header">Participant : {{ app.user}} </h1>
+            <br>
+        </div>
     </div>
 
+    <div class="row">
+        <h1 class="ui header">Filtrer les sorties</h1>
+
+        <div class="ui three column grid">
+            <div>
+                <div class="ui form">
+                    <div class="inline fields">
+                        <label>Site :</label>
+                        <div class="field">
+                            <div class="ui form">
+                                <div class="field">
+                                    <select>
+                                        {% for site in sites %}
+                                            <option value="{{ site.id }}">{{ site.nom }}</option>
+
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ui form">
+                    <div class="inline fields">
+                        <label>Le nom de la sortie contient :</label>
+                        <div class="field">
+                            <div class="ui disabled icon input">
+                                <i class="search icon"></i>
+                                <input type="text" placeholder="search">
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
+                <div class="ui form">
+                    <div class="inline fields">
+                        <label>Entrer</label>
+                        <div class="field">
+                            <input type="date" placeholder="(xxx)">
+                            <i class="calendar alternate outline icon big"></i>
+                        </div>
+                        <label> et </label>
+                        <div class="field">
+                            <input type="date" placeholder="xxx">
+                            <i class="calendar alternate outline icon big"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column">
+                    <div class="ui checked checkbox">
+                        <input type="checkbox" checked="">
+                        <label>Sorties dont je suis l'organisateur/trice</label>
+                    </div>
+
+                    <div class="ui checkbox">
+                        <input type="checkbox" name="">
+                        <label>Sorties auxquelles je suis inscrit/e</label>
+                    </div>
+                    <div class="ui checkbox">
+                        <input type="checkbox" name="">
+                        <label>Sorties auxquelles je ne suis pas inscrit/e</label>
+                    </div>
+
+                    <div class="ui checkbox">
+                        <input type="checkbox" name="">
+                        <label>Sorties passées</label>
+                    </div>
+            </div>
+
+            <div class="column">
+                    <button class="ui blue button massive ">Rechercher
+                        <a href=""></a>
+                    </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" >
         <table class="ui celled  striped table">
             <thead>
             <tr>
@@ -40,15 +122,16 @@
                     <td>{{ s.organisateur.nom }}</td>
                     <td>
                         {% set value = s.etat.libelle %}
+                        {#
                         {% set dateDuJour = "now"| date("d/m/Y") %}
                         {% set dateCloture = s.DateLimiteInscription | date("d/m/Y") %}
-
-                        {% if value == 'Ouvert' and dateCloture > dateDuJour %}
-                                <p><a href="">Afficher</a></p>
+                             {% if value == 'Ouvert' and dateCloture > dateDuJour %}
+                                <p><a href=""></a>value</p>
                             {% else %}
                                 <p>Afficher</p>
                         {% endif %}
-
+                        #}
+                        <a href="{# {{ path(value) }} #}">{{ value }}</a>
                     </td>
                 </tr>
 
@@ -56,10 +139,13 @@
             </tbody>
         </table>
 
-    <button class="ui blue button big ">Créer une sortie
-        <a href=""></a>
-    </button>
+        <button class="ui blue button big ">Créer une sortie
+            <a href=""></a>
+        </button>
 
+    </div>
+
+</div>
 
 
 
