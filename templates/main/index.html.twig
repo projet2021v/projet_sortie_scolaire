@@ -3,16 +3,65 @@
 {% block title %}Accueil{% endblock %}
 
 {% block main %}
-    {% for s in sorties %}
-        Nom de la sortie : {{ s.nom }}
-        <br>
-        inscription/places :
-        <br>
-        Etat : {{ s.etat.libelle}}
+
+    <div class="ui container">
+        <h1>Date du jour : {{ "now"| date("d/m/Y") }}</h1>
+        <h1>Participant : {{ app.user}} </h1>
+
+
+    </div>
 
 
 
-    {% endfor %}
+        <table class="ui celled  striped table">
+            <thead>
+            <tr>
+                <th>Nom de la sortie</th>
+                <th>Date de la sortie</th>
+                <th>Clôture</th>
+                <th>inscription/places</th>
+                <th>Etat</th>
+                <th>Inscrit</th>
+                <th>Organisateur</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for s in sorties %}
+
+                <tr>
+                    <td>{{ s.nom }}</td>
+                    <td>{{ s.DateHeureDebut | date("d/m/Y H:m") }}</td>
+                    <td>{{ s.DateLimiteInscription | date("d/m/Y") }}</td>
+                    <td>{{ s.NbInscriptionsMax }}</td>
+                    <td>{{ s.etat.libelle}}</td>
+                    <td></td>
+                    <td>{{ s.organisateur.nom }}</td>
+                    <td>
+                        {% set value = s.etat.libelle %}
+                        {% set dateDuJour = "now"| date("d/m/Y") %}
+                        {% set dateCloture = s.DateLimiteInscription | date("d/m/Y") %}
+
+                        {% if value == 'Ouvert' and dateCloture > dateDuJour %}
+                                <p><a href="">Afficher</a></p>
+                            {% else %}
+                                <p>Afficher</p>
+                        {% endif %}
+
+                    </td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+
+    <button class="ui blue button big ">Créer une sortie
+        <a href=""></a>
+    </button>
+
+
+
 
 
 
