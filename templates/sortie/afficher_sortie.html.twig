@@ -25,5 +25,8 @@
         Longitude : {{ sortie.getLieu().getLongitude() }}
     </div>
 
+    <a type="button" href="{{ path('main') }}">Retour</a><br>
+    <a type="button" href="{{ path('modifier_sortie', {'id': sortie.id}) }}">Modifier la sortie</a>
+
 
 {% endblock %}

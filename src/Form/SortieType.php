@@ -15,18 +15,40 @@ class SortieType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nom')
-            ->add('date_heure_debut', DateTimeType::class, ['date_widget' => 'single_text', 'time_widget'=>'single_text'])
-            ->add('duree')
-            ->add('date_limite_inscription', DateType::class, ['widget' => 'single_text'])
-            ->add('nb_inscriptions_max')
-            ->add('infos_sortie')
-            ->add('motif_annulation')
-//            ->add('lieu', null, ['choice_label'=>'nom'])
+            ->add('nom', null, ['label' => 'Nom de la sortie : '])
+
+            ->add('date_heure_debut',
+                DateTimeType::class, [
+                'date_widget' => 'single_text',
+                'time_widget' => 'single_text',
+                'label' => 'Date et heure de la sortie : '
+                ])
+
+            ->add('date_limite_inscription',
+                DateType::class, [
+                'widget' => 'single_text',
+                'label' => 'Date limite d\'inscription : '
+                ])
+
+            ->add('nb_inscriptions_max', null, ['label' => 'Nombre de places : '])
+
+            ->add('duree',null, ['label' => 'Durée : '])
+
+            ->add('infos_sortie', null, ['label' => 'Description et infos : '])
+
+            ->add('site', null, ['choice_label' => 'nom', 'label' => 'Ville organisatrice'])
+
+            ->add('lieu', LieuType::class)
+
 //            ->add('etat')
-//            ->add('site', null, ['choice_label'=>'nom'])
+
 //            ->add('organisateur', null, ['choice_label'=>'nom'])
-            
+
+            ->add('motif_annulation')
+
+
+
+
         ;
     }
 
