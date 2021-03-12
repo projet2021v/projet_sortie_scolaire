@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MainController extends AbstractController
 {
     /**
-     * @Route("/", name="home")
+     * @Route("/", name="main")
      */
     public function home(SortieRepository $repo, SiteRepository $repoSite): Response
     {

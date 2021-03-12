@@ -47,6 +47,12 @@ class SpecialAuthenticator extends AbstractFormLoginAuthenticator implements Pas
 
     public function getCredentials(Request $request)
     {
+//        if($request->request->get('username')) {
+//            $log = $request->request->get('username');
+//        } elseif ($request->request->get('mail')) {
+//            $log = $request->request->get('mail');
+//        }
+
         $credentials = [
             'username' => $request->request->get('username'),
             'password' => $request->request->get('password'),
@@ -68,6 +74,7 @@ class SpecialAuthenticator extends AbstractFormLoginAuthenticator implements Pas
         }
 
         $user = $this->entityManager->getRepository(Participant::class)->findOneBy(['username' => $credentials['username']]);
+//        $user = $this->entityManager->getRepository(Participant::class)->findOneBy(['mail' => $credentials['mail']]);
 
         if (!$user) {
             // fail authentication with a custom error
@@ -96,8 +103,10 @@ class SpecialAuthenticator extends AbstractFormLoginAuthenticator implements Pas
             return new RedirectResponse($targetPath);
         }
 
-        // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
-        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+        return new RedirectResponse($this->urlGenerator->generate('main'));
+        /*
+         * throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+         */
     }
 
     protected function getLoginUrl()
