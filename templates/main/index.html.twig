@@ -109,14 +109,13 @@
             </thead>
             <tbody>
 
+            <tr id="ligneSortie">
+
+            </tr>
+
             {% for s in sorties %}
 
-                <script>
-                    if ({{ s.site.nom }} == idSite){
-                        {{ s.site.nom  }}
-                    }
-
-                </script>
+                {% set dateP = s.DateHeureDebut | date("d/m/Y") %}
 
                 <tr>
                     <td>{{ s.nom }}</td>
@@ -136,6 +135,9 @@
                             {% else %}
                                 <p>Afficher</p>
                         {% endif %}
+
+                                            {{ path('delete_personne', { 'id': p.id} )}}
+
                         #}
                         <a href="{# {{ path(value) }} #}">{{ value }}</a>
                     </td>
@@ -161,7 +163,7 @@
         let sortiesOrganisateur;
         let sortiesInscrit;
         let sotiesNonInscrit;
-        let sortiesPassees
+        let sortiesPassees;
 
         function getAffichage(){
             idSite = document.getElementById("idSite").value;
@@ -170,6 +172,17 @@
             sortiesInscrit = document.getElementById("sortiesInscrit").value;
             sotiesNonInscrit = document.getElementById("sotiesNonInscrit").value;
             sortiesPassees = document.getElementById("sortiesPassees").value;
+
+            for (ligne in liste){
+                for(cassss in ligne){
+                    let cellule = document.createElement("td");
+                    cellule.textContent = cassss.nom;
+                    document.getElementById("ligneSortie").appendChild(cellule);
+                    console.log(cassss);
+                }
+                console.log(liste);
+            }
+
         }
     </script>
 
