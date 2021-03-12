@@ -15,7 +15,7 @@ class MainController extends AbstractController
     /**
      * @Route("/", name="main")
      */
-    public function home(SortieRepository $repo, SiteRepository $repoSite): Response
+    public function main(SortieRepository $repo, SiteRepository $repoSite): Response
     {
 
         $sites = $repoSite->findAll();
