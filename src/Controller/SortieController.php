@@ -46,6 +46,7 @@ class SortieController extends AbstractController
         ]);
     }
 
+
     /**
      * @Route("/sortie/{id}", name="afficher_sortie")
      * @param Sortie $sortie

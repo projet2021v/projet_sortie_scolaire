@@ -6,19 +6,38 @@
 
     <h1>Modifier une sortie</h1>
 
-{#    {{ form_start(form) }}#}
+    {{ form_start(form) }}
 
-{#    {{ form_row(form.nom) }}#}
-{#    {{ form_row(form.date_heure_debut) }}#}
-{#    {{ form_row(form.date_limite_inscription) }}#}
-{#    {{ form_row(form.nb_inscriptions_max) }}#}
-{#    {{ form_row(form.duree) }}#}
-{#    {{ form_row(form.infos_sortie) }}#}
+    <div>
+        <span id="name">{{ form_row(form.nom) }}</span>
+        {{ form_row(form.date_heure_debut) }}
+        {{ form_row(form.date_limite_inscription) }}
+        {{ form_row(form.nb_inscriptions_max) }}
+        {{ form_row(form.duree) }}
+        {{ form_row(form.infos_sortie) }}
+    </div>
 
-{#    {{ form_row(form.lieu.latitude) }}#}
+    <div>
+        {{ form_row(form.site) }}
+        {{ form_row(form.lieu.ville.nom) }}
+        {{ form_row(form.lieu.nom) }}
+        {{ form_row(form.lieu.adresse) }}
+        {{ form_row(form.lieu.ville.code_postal) }}
+        {{ form_row(form.lieu.latitude) }}
+        {{ form_row(form.lieu.longitude) }}
+    </div>
 
-{#    {{ form_end(form) }}#}
+    <button type="submit">Enregistrer</button>
+    {{ form_end(form) }}
 
 
+    <a type="button" href="{{ path('main') }}">Retour</a><br>
 
+
+    <script>
+        let test = document.getElementById("sortie_nom").value;
+        console.log(test);
+        console.log("ok");
+    </script>
 {% endblock %}
+
