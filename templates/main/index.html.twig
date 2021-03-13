@@ -157,32 +157,80 @@
 </div>
 
     <script>
-        let liste = {{ sorties|json_encode() }};
+        let liste =  {{ sorties | json_encode}};
 
-        let motDansSortie;
-        let sortiesOrganisateur;
-        let sortiesInscrit;
-        let sotiesNonInscrit;
-        let sortiesPassees;
+        //console.log(liste.length);
+        let objetNo = liste[1];
+        console.log(objetNo);
 
+
+        // for(let i=0; i < liste.length; i++){
+        //     for(let lit in liste){
+        //
+        //         console.log(lit.nom);
+        //     }
+        // }
+
+        // for (let i in liste){
+        //     console.log(i[0].nom);
+        //     for (const property in i) {
+        //         console.log(`${property}: ${i[property]}`);
+        //     }
+
+            // for (var cel in liste){
+            //     document.write(liste[cel].nom);
+            // }
+        // }
+
+
+        // let motDansSortie;
+        // let sortiesOrganisateur;
+        // let sortiesInscrit;
+        // let sotiesNonInscrit;
+        // let sortiesPassees;
+        //
         function getAffichage(){
-            idSite = document.getElementById("idSite").value;
-            motDansSortie = document.getElementById("nomSortie").value;
-            sortiesOrganisateur = document.getElementById("sortiesOrganisateur").value;
-            sortiesInscrit = document.getElementById("sortiesInscrit").value;
-            sotiesNonInscrit = document.getElementById("sotiesNonInscrit").value;
-            sortiesPassees = document.getElementById("sortiesPassees").value;
-
-            for (ligne in liste){
-                for(cassss in ligne){
-                    let cellule = document.createElement("td");
-                    cellule.textContent = cassss.nom;
-                    document.getElementById("ligneSortie").appendChild(cellule);
-                    console.log(cassss);
-                }
-                console.log(liste);
-            }
-
+        //     idSite = document.getElementById("idSite").value;
+        //     motDansSortie = document.getElementById("nomSortie").value;
+        //     sortiesOrganisateur = document.getElementById("sortiesOrganisateur").value;
+        //     sortiesInscrit = document.getElementById("sortiesInscrit").value;
+        //     sotiesNonInscrit = document.getElementById("sotiesNonInscrit").value;
+        //     sortiesPassees = document.getElementById("sortiesPassees").value;
+        //
+        //     for(const ligne of liste){
+        //         console.log(Object.entries(ligne));
+        //         for (var [cle, valeur] of Object.entries(liste)){
+        //             console.log(cle + ' ' + valeur);
+        //         }
+        //         for(const caca of ligne){
+        //             document.write(liste.nom);
+        //             console.log('crote');
+        //         }
+        //     }
+        //
+        //
+        //
+        //
+        //
+        //     for (let i = 0;i <liste.length; i++){
+        //         document.write(liste.nom);
+        //         for (var cel in liste){
+        //             document.write(liste[cel].nom);
+        //         }
+        //     }
+        //
+        //
+        //
+        //     for (ligne of liste){
+        //         for(cassss of ligne.valueOf()){
+        //             let cellule = document.createElement("td");
+        //             cellule.textContent = cassss.nom;
+        //             document.getElementById("ligneSortie").appendChild(cellule);
+        //             console.log(cassss.nom);
+        //         }
+        //         console.log(ligne);
+        //     }
+        //
         }
     </script>
 

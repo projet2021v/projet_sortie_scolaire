@@ -20,6 +20,7 @@ class MainController extends AbstractController
 
         $sites = $repoSite->findAll();
         $sorties = $repo->findAll();
+        dump($sorties);
         return $this->render('main/index.html.twig', [
             'sorties' => $sorties,
             'sites' => $sites,
