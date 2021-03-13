@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class MainController extends AbstractController
 {
@@ -40,13 +41,13 @@ class MainController extends AbstractController
      * @param SortieRepository $repoSortie
      * @return Response
      */
-    public function main(SortieRepository $repoSortie, Request $request): Response
+    public function main(SortieRepository $repoSortie, Request $request, UserInterface $user): Response
     {
         $data = new SearchData();
         $form = $this->createForm(SearchForm::class, $data);
 
         $form->handleRequest($request);
-        $sorties = $repoSortie->findSearch($data);
+        $sorties = $repoSortie->findSearch($data, $user);
 
         return $this->render('main/index.html.twig', [
             'sorties' => $sorties,

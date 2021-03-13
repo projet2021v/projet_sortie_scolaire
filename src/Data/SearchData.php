@@ -5,6 +5,7 @@ namespace App\Data;
 
 
 use DateTime;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class SearchData
 {
@@ -14,14 +15,14 @@ class SearchData
     public $mot_cle = '';
 
     /**
-     * @var null|dateTime
+     * @var null|dateType
      */
-    public $date_min = '';
+    public $date_min;
 
     /**
-     * @var null|dateTime
+     * @var null|dateType
      */
-    public $date_max = '';
+    public $date_max;
 
     /**
      * @var boolean

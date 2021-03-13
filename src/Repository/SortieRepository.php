@@ -6,6 +6,8 @@ use App\Data\SearchData;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
+use function mysql_xdevapi\getSession;
 
 /**
  * @method Sortie|null find($id, $lockMode = null, $lockVersion = null)
@@ -54,15 +56,14 @@ class SortieRepository extends ServiceEntityRepository
      * @param SearchData $search
      * @return Sortie[]
      */
-    public function findSearch(SearchData $search): array
+    public function findSearch(SearchData $search, UserInterface $user): array
     {
         $dateJour = new \DateTime();
 
         $query = $this
             ->createQueryBuilder('s')
-            ->select('s')
+//            ->select('s')
         ;
-
 
         if(!empty($search->mot_cle)) {
             $query = $query
@@ -70,10 +71,28 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('mot_cle', "%{$search->mot_cle}%");
         }
 
+        if(!empty($search->orga)) {
+            $query = $query
+                ->andWhere('s.organisateur = :user')
+                ->setParameter('user', $user);
+        }
+
         if(!empty($search->passee)) {
             $query = $query
-                ->andWhere('s.date_heure_debut < :dj')
-                ->setParameter('dj', $dateJour);
+                ->andWhere('s.date_heure_debut < :date_jour')
+                ->setParameter('date_jour', $dateJour);
+        }
+
+        if(!empty($search->date_min)) {
+            $query = $query
+                ->andWhere('s.date_heure_debut >= :date_min')
+                ->setParameter('date_min', $search->date_min);
+        }
+
+        if(!empty($search->date_max)) {
+            $query = $query
+                ->andWhere('s.date_heure_debut <= :date_max')
+                ->setParameter('date_max', $search->date_max);
         }
 
         return $query->getQuery()->getResult();

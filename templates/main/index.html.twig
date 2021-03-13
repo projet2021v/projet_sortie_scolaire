@@ -8,8 +8,8 @@
     <div class="row" >
         <div>
             <h1 class="ui header">Date du jour : {{ "now"| date("d/m/Y") }}</h1>
-            <h1>{{ app.session.get(participant.username) }}</h1>
-{#            <h1 class="ui header">Participant : { {{ app.participant.username}}  </h1>#}
+{#            <h1>{{ dump(app.user) }}</h1>#}
+            <h1 class="ui header">Participant : {{ app.user.username}}  </h1>
             <br>
         </div>
     </div>
@@ -144,6 +144,7 @@
 
                 {% for s in sorties %}
 {#                    {% set dateP = s.DateHeureDebut | date("d/m/Y") %}#}
+{#                    {{ dump(s) }}#}
                     <tr id="testId">
                         <td>{{ s.nom }}</td>
                         <td>{{ s.DateHeureDebut | date("d/m/Y H:i") }}</td>
@@ -151,7 +152,7 @@
                         <td>{{ s.NbInscriptionsMax }}</td>
                         <td>{{ s.etat.libelle}}</td>
                         <td></td>
-                        <td><a href="{{ path('afficher_profil', {'id': s.organisateur.id}) }}">{{ s.organisateur.nom }}</a></td>
+                        <td><a href="{{ path('afficher_profil', {'id': s.organisateur.id}) }}">{{ s.organisateur.username }}</a></td>
                         <td></td>
 
 {#                        <td>#}

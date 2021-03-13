@@ -5,10 +5,9 @@ namespace App\Form;
 
 
 use App\Data\SearchData;
-use DateTimeInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -25,14 +24,16 @@ class SearchForm extends AbstractType
               'placeholder' => 'Rechercher'
           ]
        ])
-//       ->add('date_min', DateTimeType::class, [
-//           'label' => false,
-//           'required' => false
-//       ])
-//       ->add('date_max', DateTimeType::class, [
-//           'label' => false,
-//           'required' => false
-//       ])
+       ->add('date_min', DateType::class, [
+           'label' => 'Entre ',
+           'required' => false,
+           'widget' => 'single_text'
+       ])
+       ->add('date_max', DateType::class, [
+           'label' => ' et ',
+           'required' => false,
+           'widget' => 'single_text'
+       ])
        ->add('orga', CheckboxType::class, [
            'label' => 'Sorties dont je suis l\'organisateur/trice',
            'required' => false
@@ -49,9 +50,7 @@ class SearchForm extends AbstractType
                    'label' => 'Sorties passées',
                    'required' => false
                ])
-
        ;
-
     }
 
     public function configureOptions(OptionsResolver $resolver)
