@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Data\SearchData;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -47,4 +48,34 @@ class SortieRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+     * Récupère les sorties triées suivant une recherche
+     * @param SearchData $search
+     * @return Sortie[]
+     */
+    public function findSearch(SearchData $search): array
+    {
+        $dateJour = new \DateTime();
+
+        $query = $this
+            ->createQueryBuilder('s')
+            ->select('s')
+        ;
+
+
+        if(!empty($search->mot_cle)) {
+            $query = $query
+                ->andWhere('s.nom LIKE :mot_cle')
+                ->setParameter('mot_cle', "%{$search->mot_cle}%");
+        }
+
+        if(!empty($search->passee)) {
+            $query = $query
+                ->andWhere('s.date_heure_debut < :dj')
+                ->setParameter('dj', $dateJour);
+        }
+
+        return $query->getQuery()->getResult();
+    }
 }

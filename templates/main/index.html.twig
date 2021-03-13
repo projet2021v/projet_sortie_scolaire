@@ -4,178 +4,209 @@
 
 {% block main %}
 <div class="ui container">
+
     <div class="row" >
         <div>
             <h1 class="ui header">Date du jour : {{ "now"| date("d/m/Y") }}</h1>
-            <h1 class="ui header">Participant : {#  {{ app.participant.username}} #} </h1>
+            <h1>{{ app.session.get(participant.username) }}</h1>
+{#            <h1 class="ui header">Participant : { {{ app.participant.username}}  </h1>#}
             <br>
         </div>
     </div>
 
-    <div class="row">
-        <h1 class="ui header">Filtrer les sorties</h1>
+    <div>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit">Rechercher</button>
+        {{ form_end(form) }}
 
-        <div class="ui three column grid">
-            <div>
-                <div class="ui form">
-                    <div class="inline fields">
-                        <label>Site :</label>
-                        <div class="field">
-                            <div class="ui form">
-                                <div class="field">
-                                    <select>
-                                        {% for site in sites %}
-                                            <option id="idSite" value="{{ site.id }}">{{ site.nom }}</option>
-
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="ui form">
-                    <div class="inline fields">
-                        <label>Le nom de la sortie contient :</label>
-                        <div class="field">
-                            <div class="ui disabled icon input">
-                                <i class="search icon"></i>
-                                <input id="nomSortie" type="text" placeholder="search">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="ui form">
-                    <div class="inline fields">
-                        <label>Entrer</label>
-                        <div class="field">
-                            <input type="date" placeholder="(xxx)">
-                            <i class="calendar alternate outline icon big"></i>
-                        </div>
-                        <label> et </label>
-                        <div class="field">
-                            <input type="date" placeholder="xxx">
-                            <i class="calendar alternate outline icon big"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="column">
-                    <div class="ui checked checkbox">
-                        <input id="sortiesOrganisateur" type="checkbox" value="sortiesOrganisateur">
-                        <label>Sorties dont je suis l'organisateur/trice</label>
-                    </div>
-
-                    <div class="ui checkbox">
-                        <input id="sortiesInscrit" type="checkbox" value="sortiesInscrit">
-                        <label>Sorties auxquelles je suis inscrit/e</label>
-                    </div>
-                    <div class="ui checkbox">
-                        <input id="sotiesNonInscrit" type="checkbox" value="sotiesNonInscrit">
-                        <label>Sorties auxquelles je ne suis pas inscrit/e</label>
-                    </div>
-
-                    <div class="ui checkbox">
-                        <input id="sortiesPassees" type="checkbox" value="sortiesPassees">
-                        <label>Sorties passées</label>
-                    </div>
-            </div>
-
-            <div class="column">
-                    <button class="ui blue button massive" onclick="getAffichage()">Rechercher
-
-                    </button>
-            </div>
-        </div>
     </div>
+
+{#    <div class="row">#}
+{#        <h1 class="ui header">Filtrer les sorties</h1>#}
+
+{#        <div class="ui three column grid">#}
+
+{#            <div>#}
+{#                RECHERCHE SELECT PAR SITE#}
+{#                <div class="ui form">#}
+{#                    <div class="inline fields">#}
+
+{#                        <label>Site :</label>#}
+
+{#                        <div class="field">#}
+{#                            <div class="ui form">#}
+{#                                <div class="field">#}
+
+{#                                    <select>#}
+{#                                        {% for site in sites %}#}
+{#                                            <option id="site" value="{{ site.id }}">{{ site.nom }}</option>#}
+{#                                        {% endfor %}#}
+{#                                    </select>#}
+
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+
+{#                    </div>#}
+{#                </div>#}
+
+{#                RECHERCHE TEXTE PAR NOM DE SORTIE#}
+{#                <div class="ui form">#}
+{#                    <div class="inline fields">#}
+
+{#                        <label>Le nom de la sortie contient :</label>#}
+
+{#                        <div class="field">#}
+{#                            <div class="ui disabled icon input">#}
+{#                                <i class="search icon"></i>#}
+{#                                <input id="nomSortie" type="text" placeholder="search">#}
+{#                            </div>#}
+{#                        </div>#}
+
+{#                    </div>#}
+{#                </div>#}
+
+
+{#                RECHERCHE DATE ENTRE TELLE DATE ET TELLE DATE#}
+{#                <div class="ui form">#}
+{#                    <div class="inline fields">#}
+
+{#                        <label>Entre</label>#}
+
+{#                        <div class="field">#}
+{#                            <input id="dateDepart" type="date" placeholder="(xxx)">#}
+{#                            <i class="calendar alternate outline icon big"></i>#}
+{#                        </div>#}
+
+{#                        <label> et </label>#}
+
+{#                        <div class="field">#}
+{#                            <input id="dateArrivee" type="date" placeholder="xxx">#}
+{#                            <i class="calendar alternate outline icon big"></i>#}
+{#                        </div>#}
+
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+
+
+{#            QUATRE CHECKBOX#}
+{#            <div class="column">#}
+{#                    <div class="ui checked checkbox">#}
+{#                        <input id="sortiesOrganisateur" type="checkbox" value="sortiesOrganisateur">#}
+{#                        <input id="chkSO" type="checkbox" value="false">#}
+{#                        <label>Sorties dont je suis l'organisateur/trice</label>#}
+{#                    </div>#}
+
+{#                    <div class="ui checkbox">#}
+{#                        <input id="sortiesInscrit" type="checkbox" value="sortiesInscrit">#}
+{#                        <input id="chkSI" type="checkbox" value="false">#}
+{#                        <label>Sorties auxquelles je suis inscrit/e</label>#}
+{#                    </div>#}
+{#                    <div class="ui checkbox">#}
+{#                        <input id="sortiesNonInscrit" type="checkbox" value="sortiesNonInscrit">#}
+{#                        <input id="chkSNI" type="checkbox" value="false">#}
+{#                        <label>Sorties auxquelles je ne suis pas inscrit/e</label>#}
+{#                    </div>#}
+
+{#                    <div class="ui checkbox">#}
+{#                        <input id="sortiesPassees" type="checkbox" value="sortiesPassees">#}
+{#                        <input id="chkSP" type="checkbox">#}
+{#                        <label>Sorties passées</label>#}
+{#                    </div>#}
+{#            </div>#}
+
+{#            <div class="column">#}
+{#                <button class="ui blue button massive" onclick="getAffichage()">Rechercher</button>#}
+{#            </div>#}
+
+{#        </div>#}
+{#    </div>#}
 
     <div class="row" >
         <table class="ui celled  striped table">
             <thead>
-            <tr>
-                <th>Nom de la sortie</th>
-                <th>Date de la sortie</th>
-                <th>Clôture</th>
-                <th>inscription/places</th>
-                <th>Etat</th>
-                <th>Inscrit</th>
-                <th>Organisateur</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-
-            <tr id="ligneSortie">
-
-            </tr>
-
-            {% for s in sorties %}
-
-                {% set dateP = s.DateHeureDebut | date("d/m/Y") %}
-
                 <tr>
-                    <td>{{ s.nom }}</td>
-                    <td>{{ s.DateHeureDebut | date("d/m/Y H:m") }}</td>
-                    <td>{{ s.DateLimiteInscription | date("d/m/Y") }}</td>
-                    <td>{{ s.NbInscriptionsMax }}</td>
-                    <td>{{ s.etat.libelle}}</td>
-                    <td></td>
-                    <td>{{ s.organisateur.nom }}</td>
-                    <td>
-                        {% set value = s.etat.libelle %}
-                        {#
-                        {% set dateDuJour = "now"| date("d/m/Y") %}
-                        {% set dateCloture = s.DateLimiteInscription | date("d/m/Y") %}
-                             {% if value == 'Ouvert' and dateCloture > dateDuJour %}
-                                <p><a href=""></a>value</p>
-                            {% else %}
-                                <p>Afficher</p>
-                        {% endif %}
-
-                                            {{ path('delete_personne', { 'id': p.id} )}}
-
-                        #}
-                        <a href="{# {{ path(value) }} #}">{{ value }}</a>
-                    </td>
+                    <th>Nom de la sortie</th>
+                    <th>Date de la sortie</th>
+                    <th>Clôture</th>
+                    <th>inscriptions/places</th>
+                    <th>État</th>
+                    <th>Inscrit</th>
+                    <th>Organisateur</th>
+                    <th>Actions</th>
                 </tr>
+            </thead>
 
+            <tbody>
+{#                <tr id="ligneSortie"></tr>#}
 
-            {% endfor %}
+                {% for s in sorties %}
+{#                    {% set dateP = s.DateHeureDebut | date("d/m/Y") %}#}
+                    <tr id="testId">
+                        <td>{{ s.nom }}</td>
+                        <td>{{ s.DateHeureDebut | date("d/m/Y H:i") }}</td>
+                        <td>{{ s.DateLimiteInscription | date("d/m/Y") }}</td>
+                        <td>{{ s.NbInscriptionsMax }}</td>
+                        <td>{{ s.etat.libelle}}</td>
+                        <td></td>
+                        <td><a href="{{ path('afficher_profil', {'id': s.organisateur.id}) }}">{{ s.organisateur.nom }}</a></td>
+                        <td></td>
+
+{#                        <td>#}
+{#                            {% set value = s.etat.libelle %}#}
+{#                            #}
+{#                            {% set dateDuJour = "now"| date("d/m/Y") %}#}
+{#                            {% set dateCloture = s.DateLimiteInscription | date("d/m/Y") %}#}
+{#                                 {% if value == 'Ouvert' and dateCloture > dateDuJour %}#}
+{#                                    <p><a href=""></a>value</p>#}
+{#                                {% else %}#}
+{#                                    <p>Afficher</p>#}
+{#                            {% endif %}#}
+
+{#                                                {{ path('delete_personne', { 'id': p.id} )}}#}
+
+{#                            #}
+{#                            <a href=" {{ path(value) }} ">{{ value }}</a>#}
+{#                        </td>#}
+
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
 
-        <button class="ui blue button big ">Créer une sortie
-            <a href=""></a>
-        </button>
-
+        <button class="ui blue button big ">Créer une sortie<a href=""></a></button>
     </div>
 
 </div>
 
-    <script>
-        let liste =  JSON.parse({{ sorties | json_encode}});
-        //let listeAprèsJson = JSON.parse(liste);
-        // let motDansSortie;
-        // let sortiesOrganisateur;
-        // let sortiesInscrit;
-        // let sotiesNonInscrit;
-        // let sortiesPassees;
-        //
 
-        function getAffichage(){
+<script>
+    {#let liste =  JSON.parse('{{ sorties | json_encode}}');#}
+    let liste =  '{{ sorties | json_encode}}';
+    //let listeAprèsJson = JSON.parse(liste);
+    // let motDansSortie;
+    // let sortiesOrganisateur;
+    // let sortiesInscrit;
+    // let sotiesNonInscrit;
+    // let sortiesPassees;
+    //
 
-            idSite = document.getElementById("idSite").value;
-            motDansSortie = document.getElementById("nomSortie").value;
-            sortiesOrganisateur = document.getElementById("sortiesOrganisateur").value;
-            sortiesInscrit = document.getElementById("sortiesInscrit").value;
-            sotiesNonInscrit = document.getElementById("sotiesNonInscrit").value;
-            sortiesPassees = document.getElementById("sortiesPassees").value;
-        }
-    </script>
+    function getAffichage(){
+        // let idSite = document.getElementById("idSite").value;
+        // motDansSortie = document.getElementById("nomSortie").value;
+        // sortiesOrganisateur = document.getElementById("sortiesOrganisateur").value;
+        // sortiesInscrit = document.getElementById("sortiesInscrit").value;
+        // sotiesNonInscrit = document.getElementById("sotiesNonInscrit").value;
+        // sortiesPassees = document.getElementById("sortiesPassees").value;
+
+
+        let test = document.getElementById("chkSP").checked;
+
+    }
+
+</script>
 
 {% endblock %}
 
