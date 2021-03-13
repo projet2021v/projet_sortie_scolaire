@@ -13,7 +13,7 @@
 <!-- nav -->
 <div class="ui secondary pointing menu">
     <div class="left menu">
-        <a class="ui item">
+        <a class="ui item" href="{{ path('main')}}">
             <img src="{{ asset('img/logo-eni.png') }}" alt="logo ENI"/>
         </a>
         <a class="ui item">
@@ -22,19 +22,19 @@
     </div>
 
     <div class="right menu">
-        <a class="ui item active" href="{{ path('app_register')}}">
+        <a class="ui item active" href="">
             Villes
         </a>
         <a class="ui item active" href="">
             Sites
         </a>
-        <a class="ui item active" href="">
+        <a class="ui item active" href="{{ path('main')}}">
             Accueil
         </a>
         <a class="ui item active" href="">
             Mon profil
         </a>
-        <a class="ui item active" href="">
+        <a class="ui item active" href="{{ path('app_logout')}}">
             Se déconncter
         </a>
     </div>
