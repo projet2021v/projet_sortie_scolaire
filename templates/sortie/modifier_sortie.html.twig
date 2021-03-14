@@ -3,6 +3,7 @@
 {% block title %}Créer une sortie{% endblock %}
 
 {% block main %}
+    <h1>Nom du user : {{ app.user.nom }} {{ app.user.username }} {{ app.user.site.nom }}</h1>
     <script>
         // let tableaulieu = [];
         //let objetLieu = new Object();
@@ -57,11 +58,22 @@
         {{ form_row(form.lieu.longitude) }}
     </div>
 
-    <button type="submit">Enregistrer</button>
+
+    <button class="big ui button blue" type="submit">Enregistrer</button>
     {{ form_end(form) }}
 
+    <a type="button" href="{{ path('main') }}">
+        <button class="big ui button blue">Publier la sortie</button>
+    </a>
 
-    <a type="button" href="{{ path('main') }}">Retour</a><br>
+    <a type="button" href="{{ path('main') }}">
+        <button class="big ui button blue">Supprimer la sortie</button>
+    </a>
+
+    <a type="button" href="{{ path('main') }}">
+        <button class="big ui button blue">Annuler</button>
+    </a>
+    <br>
 
 
     <script>
@@ -111,8 +123,6 @@
                 }
             }
         }
-
-
 
     </script>
 {% endblock %}
