@@ -143,7 +143,6 @@
                     </td>
                 </tr>
 
-
             {% endfor %}
             </tbody>
         </table>
@@ -157,14 +156,15 @@
 </div>
 
     <script>
-        let liste =  JSON.parse({{ sorties | json_encode}});
+        let liste =  {{ sorties | json_encode}};
         //let listeAprèsJson = JSON.parse(liste);
         // let motDansSortie;
         // let sortiesOrganisateur;
         // let sortiesInscrit;
         // let sotiesNonInscrit;
         // let sortiesPassees;
-        //
+
+        console.log(liste);
 
         function getAffichage(){
 
