@@ -4,7 +4,7 @@
 namespace App\Data;
 
 
-use DateTime;
+use App\Entity\Site;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class SearchData
@@ -43,6 +43,11 @@ class SearchData
      * @var boolean
      */
     public $passee = false;
+
+    /**
+     * @var Site[]
+     */
+    public $site_sortie;
 
 
 

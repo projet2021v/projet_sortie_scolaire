@@ -54,45 +54,60 @@ class SortieRepository extends ServiceEntityRepository
     /**
      * Récupère les sorties triées suivant une recherche
      * @param SearchData $search
+     * @param UserInterface $user
      * @return Sortie[]
      */
     public function findSearch(SearchData $search, UserInterface $user): array
     {
         $dateJour = new \DateTime();
+//        dump($dateJour);
+//        $dateFinAffichage = $dateJour->modify('+1 month');
+//        dump($dateJour);
 
         $query = $this
             ->createQueryBuilder('s')
-//            ->select('s')
         ;
 
+        //quand un mot clé a été renseigné
         if(!empty($search->mot_cle)) {
             $query = $query
                 ->andWhere('s.nom LIKE :mot_cle')
                 ->setParameter('mot_cle', "%{$search->mot_cle}%");
         }
 
+        //quand la case "sorties dont je suis l'organisateur" a été cochée
         if(!empty($search->orga)) {
             $query = $query
                 ->andWhere('s.organisateur = :user')
                 ->setParameter('user', $user);
         }
 
+        //quand la case "sorties passées" a été cochée
         if(!empty($search->passee)) {
             $query = $query
                 ->andWhere('s.date_heure_debut < :date_jour')
                 ->setParameter('date_jour', $dateJour);
         }
 
+        //quand la case "date_min (Entre)" a été cochée
         if(!empty($search->date_min)) {
             $query = $query
                 ->andWhere('s.date_heure_debut >= :date_min')
                 ->setParameter('date_min', $search->date_min);
         }
 
+        //quand la case "date_max ( et )" a été cochée
         if(!empty($search->date_max)) {
             $query = $query
                 ->andWhere('s.date_heure_debut <= :date_max')
                 ->setParameter('date_max', $search->date_max);
+        }
+
+        //quand un site orgnisateur a été sélectionné
+        if(!empty($search->site_sortie) and $search->site_sortie != "Tous les sites") {
+            $query = $query
+                ->andWhere('s.site = :site_id')
+                ->setParameter('site_id', $search->site_sortie);
         }
 
         return $query->getQuery()->getResult();
