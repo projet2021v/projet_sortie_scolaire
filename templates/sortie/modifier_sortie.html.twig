@@ -2,23 +2,40 @@
 
 {% block title %}Créer une sortie{% endblock %}
 
+{% block titrePage %}
+    <div class="ui two column centered grid">
+        <div class="column"> <h1 class="ui centered grid">Modifier une sortie</h1></div>
+    </div>
+{% endblock %}
+
 {% block main %}
-    <h1>Nom du user : {{ app.user.nom }} {{ app.user.username }} {{ app.user.site.nom }}</h1>
+{#    <h1>Nom du user : {{ app.user.nom }} {{ app.user.username }} {{ app.user.site.nom }}</h1>#}
     <script>
-        // let tableaulieu = [];
-        //let objetLieu = new Object();
+        <!-- à garder -->
+        // //let objetLieu = new Object();
         let objetLieu = [];// ici c'est un tableau pas un objet. Nom à changer
+        <!-- Fin à garder -->
+
+        // let objetLieu = [];
 
     </script>
+
     {% for p in lieux %}
         <script>
-            objetLieu.push({'{{ p.ville.nom }}': '{{ p.nom }}'})
+            {#let lieuEntier = new Object();#}
+            {#lieuEntier.ville = '{{ p.ville.nom }}';#}
+            {#lieuEntier.lieuNom = '{{ p.nom }}';#}
+            {#lieuEntier.lieuNom = '{{ p.nom }}';#}
+            {#objetLieu.push({})#}
 
+            <!-- à garder -->
+            objetLieu.push({'{{ p.ville.nom }}': '{{ p.nom }}'})
+            <!-- Fin à garder -->
     {#objetLieu ['{{ p.ville.nom }}'] = '{{ p.nom }}';#}
 
-    <!-- a garder -->
+    <!-- bbbba garder -->
             {#objetLieu['{{ p.ville.nom }}'] = '{{ p.nom }}';#}
-<!-- fin de garder -->
+<!-- fin bbbbde garder -->
             {#let vil = '{{ p.ville.nom }}';#}
             {#console.log(vil);#}
             {#tableaulieu[vil].push('{{ p.nom }}');#}
@@ -27,59 +44,75 @@
             {#console.log('{{ p.ville.nom }}');#}
         </script>
     {% endfor %}
-
-    <h1>Modifier une sortie</h1>
-
+    <div class="ui two column centered grid">
+        <div class="four column centered row">
+            <div class="column">
     {{ form_start(form) }}
 
-    <div>
-        <span id="name">{{ form_row(form.nom) }}</span>
-        {{ form_row(form.date_heure_debut) }}
-        {{ form_row(form.date_limite_inscription) }}
-        {{ form_row(form.nb_inscriptions_max) }}
-        {{ form_row(form.duree) }}
-        {{ form_row(form.infos_sortie) }}
+                <div>
+                    <span id="name">{{ form_row(form.nom) }}</span>
+                    {{ form_row(form.date_heure_debut) }}
+                    {{ form_row(form.date_limite_inscription) }}
+                    {{ form_row(form.nb_inscriptions_max) }}
+                    {{ form_row(form.duree) }}
+                    {{ form_row(form.infos_sortie) }}
+                </div>
+            </div>
+
+
+            <div class="column">
+                <div>
+                    {{ form_row(form.site) }}
+                    {#{{ form_row(form.lieu.ville.nom) }}#}
+
+                    <span id="lieu" onchange="obtenirNom()">{{ form_row(form.lieu.ville.nom) }}</span>
+
+                    {#{{ form_row(form.lieu.nom) }}#}
+
+                    <span id="lieuNom" onclick="donnerDesValeurs()" >{{ form_row(form.lieu.nom) }}</span>
+
+                    {{ form_row(form.lieu.adresse) }}
+                    {{ form_row(form.lieu.ville.code_postal) }}
+                    {{ form_row(form.lieu.latitude) }}
+                    {{ form_row(form.lieu.longitude) }}
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div>
-        {{ form_row(form.site) }}
-        {#{{ form_row(form.lieu.ville.nom) }}#}
 
-        <span id="lieu" onchange="obtenirNom()">{{ form_row(form.lieu.ville.nom) }}</span>
+    <div class="ui four column centered grid">
+        <div class="height column centered row">
+            <div class="column">
+                <button class="big ui button blue" type="submit">Enregistrer</button>
+            </div>
+            {{ form_end(form) }}
 
-        {#{{ form_row(form.lieu.nom) }}#}
+            <div class="column">
+                <a type="button" href="{{ path('main') }}">
+                    <button class="big ui button blue">Publier la sortie</button>
+                </a>
+            </div>
 
-        <span id="lieuNom" onclick="donnerDesValeurs()" >{{ form_row(form.lieu.nom) }}</span>
+            <div class="column">
+                <a type="button" href="{{ path('main') }}">
+                    <button class="big ui button blue">Supprimer la sortie</button>
+                </a>
+            </div>
 
-
-        {{ form_row(form.lieu.adresse) }}
-        {{ form_row(form.lieu.ville.code_postal) }}
-        {{ form_row(form.lieu.latitude) }}
-        {{ form_row(form.lieu.longitude) }}
+            <div class="column">
+                <a type="button" href="{{ path('main') }}">
+                    <button class="big ui button blue">Annuler</button>
+                </a>
+            </div>
+        </div>
     </div>
-
-
-    <button class="big ui button blue" type="submit">Enregistrer</button>
-    {{ form_end(form) }}
-
-    <a type="button" href="{{ path('main') }}">
-        <button class="big ui button blue">Publier la sortie</button>
-    </a>
-
-    <a type="button" href="{{ path('main') }}">
-        <button class="big ui button blue">Supprimer la sortie</button>
-    </a>
-
-    <a type="button" href="{{ path('main') }}">
-        <button class="big ui button blue">Annuler</button>
-    </a>
-    <br>
-
 
     <script>
         // let test = document.getElementById("sortie_nom").value;
         // console.log(test);
         // console.log("ok");
+
 
 
         <!------ partie  -->

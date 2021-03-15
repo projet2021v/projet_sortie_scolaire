@@ -17,7 +17,7 @@ class SortieController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function creer_sortie(Request $request): Response
+    public function creer_sortie(LieuRepository $lieuRepo, Request $request): Response
     {
         $session = $request->getSession();
 
@@ -40,9 +40,13 @@ class SortieController extends AbstractController
             return $this->redirectToRoute('main');
         }
 
+        //Récupération des lieux
+        $lieux = $lieuRepo->findAll();
+
         return $this->render('sortie/creer_sortie.html.twig', [
             'sortie' => $sortie,
             'session' =>$session,
+            'lieux' => $lieux,
             'form' => $form->createView()
         ]);
     }

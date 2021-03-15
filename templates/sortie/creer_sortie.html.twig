@@ -2,51 +2,92 @@
 
 {% block title %}Créer une sortie{% endblock %}
 
-{% block main %}
-
-    <h1>CRÉER UNE SORTIE</h1>
-
-    <div>
-
+{% block titrePage %}
+<div class="ui two column centered grid">
+    <div class="column">
+        <h1 class="ui centered grid">CRÉER UNE SORTIE</h1>
     </div>
+</div>
+{% endblock %}
+
+{% block main %}
+    <div class="ui two column centered grid">
+        <div class="four column centered row">
+            <div class="column">
 
 {#    {{ form_start(form) }}#}
+                <div>
+                    {{ form_row(form.nom) }}
+                    {{ form_row(form.date_heure_debut) }}
+                    {{ form_row(form.date_limite_inscription) }}
+                    {{ form_row(form.nb_inscriptions_max) }}
+                    {{ form_row(form.duree) }}
+                    {{ form_row(form.infos_sortie) }}
+                </div>
+            </div>
 
-    {{ form_row(form.nom) }}
-    {{ form_row(form.date_heure_debut) }}
-    {{ form_row(form.date_limite_inscription) }}
-    {{ form_row(form.nb_inscriptions_max) }}
-    {{ form_row(form.duree) }}
-    {{ form_row(form.infos_sortie) }}
+            <div class="column">
+                <div>
+                    {{ form_row(form.site) }}
+                    <br>
+                    ville
+                    <br>
+                    <i id="plus" class="plus circle icon" onclick="ajoutDuLieu()"></i>
+                    <div id="formulaireCache" onload="cacher()" style="display: none">
+                        <div>
+                            {{ form_row(form.lieu) }}
+                        </div>
+                    </div>
 
-    {{ form_row(form.site) }}
-    <br>
-    ville
-    <br>
-    {{ form_row(form.lieu) }}
-    <br>
-    rue
-    <br>
-    code_postal
-    <br>
-    latitude
-    <br>
-    longitude
+                </div>
+            </div>
+        </div>
+    </div>
+{#    <br>#}
+{#    rue#}
+{#    <br>#}
+{#    code_postal#}
+{#    <br>#}
+{#    latitude#}
+{#    <br>#}
+{#    longitude#}
 
 {#    {{ form_end(form) }}#}
 
-    <a type="button" href="{{ path('main') }}">
-        <button class="big ui button blue">Enregistrer</button>
-    </a>
+    <div class="ui two column centered grid">
+        <div class="seven column centered row">
+            <div class="column">
+                <a type="button" href="{{ path('main') }}">
+                    <button class="big ui button blue">Enregistrer</button>
+                </a>
+            </div>
 
-    <a type="button" href="{{ path('main') }}">
-        <button class="big ui button blue">Publier la sortie</button>
-    </a>
+            <div class="column">
+                <a type="button" href="{{ path('main') }}">
+                    <button class="big ui button blue">Publier la sortie</button>
+                </a>
+            </div>
 
+            <div class="column">
+                <a type="button" href="{{ path('main') }}">
+                    <button class="big ui button blue">Annuler</button>
+                </a>
+            </div>
+        </div>
+    </div>
 
-    <a type="button" href="{{ path('main') }}">
-        <button class="big ui button blue">Annuler</button>
-    </a>
+    <script>
+        function cacher(){
+           document.getElementById("formulaireCache").style.visibility = "hidden";
+        }
 
+        function ajoutDuLieu(){
+            console.log('J affiche');
+            document.getElementById("formulaireCache").style = "block";
+            let div = document.getElementById("plus");
+            let champFormulaire = document.createElement("sortie_lieu");
+            div.appendChild(champFormulaire);
+        }
 
+    </script>
 {% endblock %}

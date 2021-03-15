@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Lieu;
 use App\Entity\Sortie;
 use Symfony\Component\Form\AbstractType;
 
@@ -14,6 +15,7 @@ class SortieType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $lieu = new Lieu();
         $builder
             ->add('nom', null, ['label' => 'Nom de la sortie : '])
 
@@ -39,6 +41,7 @@ class SortieType extends AbstractType
             ->add('site', null, ['choice_label' => 'nom', 'label' => 'Ville organisatrice'])
 
             ->add('lieu', LieuType::class)
+
 
 //            ->add('etat')
 
