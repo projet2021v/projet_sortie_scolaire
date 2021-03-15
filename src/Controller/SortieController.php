@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Sortie;
 use App\Form\SortieType;
+use App\Repository\LieuRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -67,7 +68,7 @@ class SortieController extends AbstractController
      * @param Sortie $sortie
      * @return Response
      */
-    public function modifier_sortie(Request $request, Sortie $sortie): Response
+    public function modifier_sortie(LieuRepository $lieuRepo, Request $request, Sortie $sortie): Response
     {
         //création d'un formulaire sur la base de l'entité Participant
         $form = $this->createForm(SortieType::class, $sortie);
@@ -83,10 +84,14 @@ class SortieController extends AbstractController
             //redirection vers la page d'affichage de la sortie
             return $this->redirectToRoute('afficher_sortie', ['id' => $sortie->getId()]);
         }
+        //Ajoute une liste des lieux
+
+        $lieux = $lieuRepo->findAll();
 
         //affichage de la page
         return $this->render('sortie/modifier_sortie.html.twig', [
             'sortie' => $sortie,
+            'lieux' => $lieux,
             'form' => $form->createView()
         ]);
     }

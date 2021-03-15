@@ -3,6 +3,30 @@
 {% block title %}Créer une sortie{% endblock %}
 
 {% block main %}
+    <h1>Nom du user : {{ app.user.nom }} {{ app.user.username }} {{ app.user.site.nom }}</h1>
+    <script>
+        // let tableaulieu = [];
+        //let objetLieu = new Object();
+        let objetLieu = [];// ici c'est un tableau pas un objet. Nom à changer
+
+    </script>
+    {% for p in lieux %}
+        <script>
+            objetLieu.push({'{{ p.ville.nom }}': '{{ p.nom }}'})
+
+    {#objetLieu ['{{ p.ville.nom }}'] = '{{ p.nom }}';#}
+
+    <!-- a garder -->
+            {#objetLieu['{{ p.ville.nom }}'] = '{{ p.nom }}';#}
+<!-- fin de garder -->
+            {#let vil = '{{ p.ville.nom }}';#}
+            {#console.log(vil);#}
+            {#tableaulieu[vil].push('{{ p.nom }}');#}
+            {#console.log(tableaulieu);#}
+            {#tableaulieu.push('{{ p.ville.nom }}');#}
+            {#console.log('{{ p.ville.nom }}');#}
+        </script>
+    {% endfor %}
 
     <h1>Modifier une sortie</h1>
 
@@ -19,25 +43,87 @@
 
     <div>
         {{ form_row(form.site) }}
-        {{ form_row(form.lieu.ville.nom) }}
-        {{ form_row(form.lieu.nom) }}
+        {#{{ form_row(form.lieu.ville.nom) }}#}
+
+        <span id="lieu" onchange="obtenirNom()">{{ form_row(form.lieu.ville.nom) }}</span>
+
+        {#{{ form_row(form.lieu.nom) }}#}
+
+        <span id="lieuNom" onclick="donnerDesValeurs()" >{{ form_row(form.lieu.nom) }}</span>
+
+
         {{ form_row(form.lieu.adresse) }}
         {{ form_row(form.lieu.ville.code_postal) }}
         {{ form_row(form.lieu.latitude) }}
         {{ form_row(form.lieu.longitude) }}
     </div>
 
-    <button type="submit">Enregistrer</button>
+
+    <button class="big ui button blue" type="submit">Enregistrer</button>
     {{ form_end(form) }}
 
+    <a type="button" href="{{ path('main') }}">
+        <button class="big ui button blue">Publier la sortie</button>
+    </a>
 
-    <a type="button" href="{{ path('main') }}">Retour</a><br>
+    <a type="button" href="{{ path('main') }}">
+        <button class="big ui button blue">Supprimer la sortie</button>
+    </a>
+
+    <a type="button" href="{{ path('main') }}">
+        <button class="big ui button blue">Annuler</button>
+    </a>
+    <br>
 
 
     <script>
-        let test = document.getElementById("sortie_nom").value;
-        console.log(test);
-        console.log("ok");
+        // let test = document.getElementById("sortie_nom").value;
+        // console.log(test);
+        // console.log("ok");
+
+
+        <!------ partie  -->
+        let lieuVilleChargement = document.getElementById("sortie_lieu_ville_nom").value;
+        lieuVilleChargement.toLowerCase();
+        console.log("Lieu de la ville au chargement : " + lieuVilleChargement);
+        console.log(objetLieu);
+
+        function obtenirNom(){
+            let lieuVilleChangement = document.getElementById("sortie_lieu_ville_nom").value;
+            console.log(lieuVilleChangement.toLowerCase());
+
+            //efface le code postal en cas de changement de ville
+            if(lieuVilleChargement.toLowerCase() !== lieuVilleChangement.toLowerCase()){
+                let codePostal = document.getElementById("sortie_lieu_ville_code_postal");
+                codePostal.value= "";
+            }
+        }
+
+        function donnerDesValeurs(){
+            let nomLieu = document.getElementById("sortie_lieu_ville_nom");
+            let nomDuLieu = nomLieu.value.toLowerCase();
+
+            //selectionne les lieux déjà dispos
+            for(var s in objetLieu){
+                for(var key in objetLieu[s]){
+                    if(key.toLowerCase() === nomDuLieu){
+                        console.log(key + " " + objetLieu[s][key]);
+                        let option = document.createElement("input");//ici choisir la balise à ajouter
+                        //option.type = "button";
+                        option.value = objetLieu[s][key];
+                        //option.placeholder = objetLieu[s][key];
+                        option.onclick = function(){
+                            let nomLieu = document.getElementById("sortie_lieu_nom");
+                            let nomDuLieu = option.value;
+                            nomLieu.value = nomDuLieu;
+                        }
+                        let nouvelleBaliseHTML = document.getElementById("lieu");
+                        nouvelleBaliseHTML.appendChild(option);
+                    }
+                }
+            }
+        }
+
     </script>
 {% endblock %}
 

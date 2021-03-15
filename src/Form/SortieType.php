@@ -44,7 +44,7 @@ class SortieType extends AbstractType
 
 //            ->add('organisateur', null, ['choice_label'=>'nom'])
 
-            ->add('motif_annulation')
+           // ->add('motif_annulation')
 
 
 
