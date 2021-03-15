@@ -38,11 +38,11 @@
             </thead>
             <tbody>
                 {% for s in sorties %}
-                    {% set dfa = s.DateHeureDebut.modify('+1 month') %}
-                    {% if dfa >= date_jour %}
+                    {# on continue d'afficher les sorties jusqu'à un mois après leur déroulement #}
+                    {% if s.DateHeureDebut.modify('+1 month') >= date_jour %}
                     <tr id="testId">
                         <td>{{ s.nom }}</td>
-                        <td>{{ s.DateHeureDebut | date("d/m/Y H:i") }}</td>
+                        <td>{{ s.DateHeureDebut.modify('-1 month') | date("d/m/Y H:i") }}</td>
                         <td>{{ s.DateLimiteInscription | date("d/m/Y") }}</td>
                         <td>{{ s.NbInscriptionsMax }}</td>
                         <td>{{ s.etat.libelle}}</td>
