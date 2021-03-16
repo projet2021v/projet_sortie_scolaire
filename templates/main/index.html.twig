@@ -8,8 +8,7 @@
     <div class="row" >
         <div>
             <h1 class="ui header">Date du jour : {{ "now"| date("d/m/Y") }}</h1>
-{#            <h1>{{ dump(sites) }}</h1>#}
-{#            <h1>{{ dump(date_fin_affichage) }}</h1>#}
+
             <h1 class="ui header">Participant : {{ app.user.username}}  </h1>
             <br>
         </div>
@@ -44,17 +43,25 @@
                         <td>{{ s.nom }}</td>
                         <td>{{ s.DateHeureDebut.modify('-1 month') | date("d/m/Y H:i") }}</td>
                         <td>{{ s.DateLimiteInscription | date("d/m/Y") }}</td>
-                        <td>{{ s.NbInscriptionsMax }}</td>
+                        <td>{{ s.inscriptions|length }}/{{ s.NbInscriptionsMax }}</td>
                         <td>{{ s.etat.libelle}}</td>
-                        <td></td>
+                        <td>
+                            {% for i in s.inscriptions %}
+                            {% if app.user.username == i.participant.username %}
+                                X
+                            {% endif %}
+                            {% endfor %}
+                        </td>
                         <td><a href="{{ path('afficher_profil', {'id': s.organisateur.id}) }}">{{ s.organisateur.username }}</a></td>
                         <td>
                             {% if s.organisateur.username == app.user.username %}
 
                                 {% if s.etat.id == 1 %} {# créée #}
-                                    <a href="">Modifier</a> - <a href="">Publier</a>
-                                {% elseif s.etat.id == 2 %} {# ouverte #}
+                                    <a href="">Modifier</a> - <a href="{{ path('publier_sortie', {'id': s.id}) }}">Publier</a>
+                                {% elseif s.etat.id >= 2 %} {# ouverte, clôturée #}
                                     <a href="{{ path('afficher_sortie', {'id': s.id}) }}">Afficher</a> - <a href="">Annuler</a>
+                                {% elseif s.etat.id >= 4 %} {# en cours, passée, annulée #}
+                                    <a href="{{ path('afficher_sortie', {'id': s.id}) }}">Afficher</a>
                                 {% endif %}
 
                             {% else %}
@@ -62,9 +69,11 @@
                                 {% if s.etat.id == 1 %} {# créée #}
                                     CRÉÉE
                                 {% elseif s.etat.id == 2 %} {# ouverte #}
-                                    <a href="{{ path('afficher_sortie', {'id': s.id}) }}">Afficher</a> - <a href="">S'inscrire</a>
-                                {% elseif s.etat.id == 3 %} {# clôturée #}
-                                <a href="">Afficher</a>
+                                    <a href="{{ path('afficher_sortie', {'id': s.id}) }}">Afficher</a>
+                                    - <a href="{{ path('inscription', {'id': s.id}) }}">S'inscrire</a>
+                                    - <a href="{{ path('desinscription', {'id': s.id}) }}">Se désinscrire</a>
+                                {% elseif s.etat.id >= 3 %} {# clôturée, en cours, passée, annulée #}
+                                    <a href="{{ path('afficher_sortie', {'id': s.id}) }}">Afficher</a>
                                 {% endif %}
 
                             {% endif %}

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Sortie;
 use App\Form\SortieType;
+use App\Repository\EtatRepository;
 use App\Repository\LieuRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -98,6 +99,28 @@ class SortieController extends AbstractController
             'lieux' => $lieux,
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/sortie/{id}/publish", name="publier_sortie")
+     * @param Request $request
+     * @param Sortie $sortie
+     * @param EtatRepository $repo_etat
+     * @return Response
+     */
+    public function publier_sortie(Request $request, Sortie $sortie, EtatRepository $repo_etat): Response
+    {
+        //récupération de l'état "ouverte"
+        $etat_ouvert = $repo_etat->findOneBySomeField(2);
+
+        //modification de l'état de la sortie
+        $sortie->setEtat($etat_ouvert);
+
+        //modification en base
+        $this->getDoctrine()->getManager()->flush();
+
+        //redirection vers l'accueil
+        return $this->redirectToRoute('main');
     }
 
 

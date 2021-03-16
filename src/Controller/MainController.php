@@ -5,8 +5,10 @@ namespace App\Controller;
 use App\Data\SearchData;
 use App\Entity\Site;
 use App\Form\SearchType;
+use App\Repository\EtatRepository;
 use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,7 +47,7 @@ class MainController extends AbstractController
      * @param UserInterface $user
      * @return Response
      */
-    public function main(SortieRepository $repoSortie, SiteRepository $repoSite, Request $request, UserInterface $user): Response
+    public function main(SortieRepository $repoSortie, SiteRepository $repoSite, Request $request, UserInterface $user, EtatRepository $repo_etat, EntityManagerInterface $em): Response
     {
         //création d'un objet SearchData
         $data = new SearchData();
@@ -77,7 +79,7 @@ class MainController extends AbstractController
         $form->handleRequest($request);
 
         //récupération des sorties en base en fonction des critères de la recherche
-        $sorties = $repoSortie->findSearch($data, $user);
+        $sorties = $repoSortie->findSearch($data, $user, $repo_etat, $em);
 
         //récupération de la date du jour
         $date_jour = new \datetime();
