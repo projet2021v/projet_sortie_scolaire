@@ -68,6 +68,7 @@ class SortieController extends AbstractController
 
     /**
      * @Route("/sortie/{id}/edit", name="modifier_sortie")
+     * @param LieuRepository $lieuRepo
      * @param Request $request
      * @param Sortie $sortie
      * @return Response
@@ -89,7 +90,6 @@ class SortieController extends AbstractController
             return $this->redirectToRoute('afficher_sortie', ['id' => $sortie->getId()]);
         }
         //Ajoute une liste des lieux
-
         $lieux = $lieuRepo->findAll();
 
         //affichage de la page
