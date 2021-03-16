@@ -11,11 +11,12 @@
 {% endblock %}
 
 {% block main %}
+    {{ app.user.site.nom }}
     <div class="ui two column centered grid">
         <div class="four column centered row">
             <div class="column">
 
-{#    {{ form_start(form) }}#}
+    {{ form_start(form) }}
                 <div>
                     {{ form_row(form.nom) }}
                     {{ form_row(form.date_heure_debut) }}
@@ -28,7 +29,7 @@
 
             <div class="column">
                 <div>
-                    {{ form_row(form.site) }}
+                    {{ form_row(form.site | quimper) }}
                     <br>
                     ville
                     <br>
@@ -52,16 +53,16 @@
 {#    <br>#}
 {#    longitude#}
 
-{#    {{ form_end(form) }}#}
+
 
     <div class="ui two column centered grid">
         <div class="seven column centered row">
             <div class="column">
-                <a type="button" href="{{ path('main') }}">
+                <a type="button" href="{{ path('creer_sortie') }}">
                     <button class="big ui button blue">Enregistrer</button>
                 </a>
             </div>
-
+            {{ form_end(form) }}
             <div class="column">
                 <a type="button" href="{{ path('main') }}">
                     <button class="big ui button blue">Publier la sortie</button>
@@ -70,11 +71,29 @@
 
             <div class="column">
                 <a type="button" href="{{ path('main') }}">
-                    <button class="big ui button blue">Annuler</button>
+                    <button class="big ui button blue" >Annuler</button>
                 </a>
             </div>
         </div>
     </div>
+
+{{ form_start(form2)}}
+
+{{ form_widget(form2) }}
+
+{{ form_end(form2) }}
+    <h1>Formulaire 3</h1>
+    {{ form_start(form3)}}
+
+    {{ form_widget(form3) }}
+
+    {{ form_end(form3) }}
+
+
+        <a type="button"  onclick="ajoutOption()">
+            <button class="big ui button blue"onclick="ajoutOption()" >Afficher</button>
+        </a>
+
 
     <script>
         function cacher(){
@@ -87,6 +106,14 @@
             let div = document.getElementById("plus");
             let champFormulaire = document.createElement("sortie_lieu");
             div.appendChild(champFormulaire);
+        }
+
+        function ajoutOption(){
+            let selectOption =  document.getElementById("ville_nom");
+            let option = document.createElement("option");
+            option.value = "Paris";
+            option.innerText = "paris";
+            selectOption.appendChild(option);
         }
 
     </script>
