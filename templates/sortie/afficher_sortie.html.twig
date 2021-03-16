@@ -26,7 +26,10 @@
     </div>
 
     <a type="button" href="{{ path('main') }}">Retour</a><br>
-    <a type="button" href="{{ path('modifier_sortie', {'id': sortie.id}) }}">Modifier la sortie</a>
 
+    {# si l'utilisateur loggé est l'organisateur, alors il peut modifier la sortie #}
+    {% if sortie.organisateur.username == app.user.username %}
+        <a type="button" href="{{ path('modifier_sortie', {'id': sortie.id}) }}">Modifier la sortie</a>
+    {% endif %}
 
 {% endblock %}

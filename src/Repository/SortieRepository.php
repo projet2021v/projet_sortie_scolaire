@@ -155,7 +155,6 @@ class SortieRepository extends ServiceEntityRepository
      */
     public function checkState(Sortie $sortie, EtatRepository $repo_etat, EntityManagerInterface $em, array $tab_status)
     {
-
         //on récupère la date du jour
         $dateJour = new \DateTime();
 
@@ -168,6 +167,11 @@ class SortieRepository extends ServiceEntityRepository
 
         //si la sortie a été publiée
         if ($sortie->getEtat()->getId() >= 2) {
+            //si la date limite d'inscription n'est pas dépassée on passe à l'état "ouverte"
+            if ($date_jourFormat < $date_limite and $sortie->getEtat()->getId() != $tab_status[1]->getId()) {
+                $sortie->setEtat($tab_status[1]);
+                $changement_a_effectuer = true;
+            }
             //si la date limite d'inscription est dépassée on passe à l'état "clôturée"
             if ($date_jourFormat > $date_limite and $sortie->getEtat()->getId() != $tab_status[2]->getId()) {
                 $sortie->setEtat($tab_status[2]);
@@ -190,6 +194,4 @@ class SortieRepository extends ServiceEntityRepository
             $em->flush();
         }
     }
-
-
 }

@@ -37,8 +37,18 @@
             </thead>
             <tbody>
                 {% for s in sorties %}
-                    {# on continue d'afficher les sorties jusqu'à un mois après leur déroulement #}
+                    {# on continue d'afficher la sortie jusqu'à un mois après son déroulement #}
                     {% if s.DateHeureDebut.modify('+1 month') >= date_jour %}
+
+                    {# on vérifie si l'utilisateur est inscrit ou pas (on renvoie un booléen) #}
+                    {% set inscrit = false %}
+                    {% for i in s.inscriptions %}
+                        {% if app.user.username == i.participant.username %}
+                            {% set inscrit = true %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {# alimentation des cellules #}
                     <tr id="testId">
                         <td>{{ s.nom }}</td>
                         <td>{{ s.DateHeureDebut.modify('-1 month') | date("d/m/Y H:i") }}</td>
@@ -46,14 +56,15 @@
                         <td>{{ s.inscriptions|length }}/{{ s.NbInscriptionsMax }}</td>
                         <td>{{ s.etat.libelle}}</td>
                         <td>
-                            {% for i in s.inscriptions %}
-                            {% if app.user.username == i.participant.username %}
+                            {# si l'utilisateur est inscrit, on marque la cellule d'une croix #}
+                            {% if inscrit == true %}
                                 X
                             {% endif %}
-                            {% endfor %}
                         </td>
                         <td><a href="{{ path('afficher_profil', {'id': s.organisateur.id}) }}">{{ s.organisateur.username }}</a></td>
                         <td>
+                            {# si l'utilisateur loggé est l'organisateur, il pourra (suivant l'état de la sortie)
+                            publier, afficher ou annuler la sortie #}
                             {% if s.organisateur.username == app.user.username %}
 
                                 {% if s.etat.id == 1 %} {# créée #}
@@ -64,20 +75,24 @@
                                     <a href="{{ path('afficher_sortie', {'id': s.id}) }}">Afficher</a>
                                 {% endif %}
 
+                            {# si l'utilisateur loggé n'est pas l'organisateur, il pourra (suivant l'état de la sortie)
+                            afficher, s'inscrire à ou se désinscrire de la sortie #}
                             {% else %}
 
                                 {% if s.etat.id == 1 %} {# créée #}
                                     CRÉÉE
                                 {% elseif s.etat.id == 2 %} {# ouverte #}
                                     <a href="{{ path('afficher_sortie', {'id': s.id}) }}">Afficher</a>
-                                    - <a href="{{ path('inscription', {'id': s.id}) }}">S'inscrire</a>
-                                    - <a href="{{ path('desinscription', {'id': s.id}) }}">Se désinscrire</a>
+                                    {% if inscrit == true %}
+                                        - <a href="{{ path('desinscription', {'id': s.id}) }}">Se désinscrire</a>
+                                    {% else %}
+                                        - <a href="{{ path('inscription', {'id': s.id}) }}">S'inscrire</a>
+                                    {% endif %}
                                 {% elseif s.etat.id >= 3 %} {# clôturée, en cours, passée, annulée #}
                                     <a href="{{ path('afficher_sortie', {'id': s.id}) }}">Afficher</a>
                                 {% endif %}
 
                             {% endif %}
-
                         </td>
                     </tr>
                     {% endif %}
