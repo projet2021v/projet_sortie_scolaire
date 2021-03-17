@@ -19,6 +19,18 @@ class LieuRepository extends ServiceEntityRepository
         parent::__construct($registry, Lieu::class);
     }
 
+
+//   public function findAllByIdVilleOrga($value): ?Lieu
+//   {
+//       return $this->createQueryBuilder('l')
+//           ->andWhere('l.exampleField = :val')
+//          // ->setParameter('val', $value)
+//           ->getQuery()
+//           ->getOneOrNullResult()
+//       ;
+//   }
+
+
     // /**
     //  * @return Lieu[] Returns an array of Lieu objects
     //  */

@@ -38,7 +38,7 @@ class SortieType extends AbstractType
 
             ->add('infos_sortie', null, ['label' => 'Description et infos : '])
 
-            ->add('site', null, ['choice_label' => 'nom', 'label' => 'Ville organisatrice'])
+            //->add('site', null, ['choice_label' => 'nom', 'label' => 'Ville organisatrice'])
 
             ->add('lieu', LieuType::class)
 

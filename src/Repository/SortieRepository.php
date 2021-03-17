@@ -112,4 +112,27 @@ class SortieRepository extends ServiceEntityRepository
 
         return $query->getQuery()->getResult();
     }
+
+
+    //Ajout  collaborateur 1
+
+//    /**
+//     * Récupère les sorties triées suivant la ville de rattachement de l'utilisateur
+//     *
+//     * @return Sortie[]
+//     */
+//    public function findAllByIdVilleOrga($value): array
+//    {
+//        return $this->createQueryBuilder('s')
+//            ->andWhere('s.site = :val')
+//            ->setParameter('val', $value)
+//            ->join('s.lieu','lieu')
+//            ->addSelect('lieu')
+////            ->join('s.ville','ville')
+////            ->addSelect('ville')
+//            //->setMaxResults(1)
+//            ->getQuery()
+//            ->getResult()
+//            ;
+//    }
 }

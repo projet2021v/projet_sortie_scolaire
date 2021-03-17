@@ -10,6 +10,7 @@ use App\Form\LieuType;
 use App\Form\SortieType;
 use App\Form\VilleType;
 use App\Repository\LieuRepository;
+use App\Repository\SortieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +25,7 @@ class SortieController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function creer_sortie(LieuRepository $lieuRepo, Request $request, UserInterface $user): Response
+    public function creer_sortie(LieuRepository $lieuRepo, Request $request, UserInterface $user, SortieRepository $sortieRepository): Response
     {
         //Affichage de valeur des villes
 
@@ -34,6 +35,25 @@ class SortieController extends AbstractController
 //            $tableauDeLieux[] = $lieu;
 //        }
 //        dump($tableauDeLieux);
+        //recupération du site de rattachement de l'utilisateur identifié
+
+//        $idSiteOrganisateur = $user->getSite()->getId();
+//        dump($idSiteOrganisateur);
+//        $listeLieuxVilleOrganisatrice = $sortieRepository->findAllByIdVilleOrga($idSiteOrganisateur);
+//        dump($listeLieuxVilleOrganisatrice);
+
+        $idSiteOrganisateur = $user->getSite()->getId();
+        $sortiesEnBD = $sortieRepository->findAll();
+        $tableauDeLieux = [];
+
+        foreach ($sortiesEnBD as $sortieEnBD){
+            $lieuRattache = new Lieu();
+            if($sortieEnBD->getSite()->getId() == $idSiteOrganisateur){
+                $lieuRattache = $sortieEnBD->getLieu();
+                $tableauDeLieux [] = $lieuRattache;
+            }
+        }
+        dump($tableauDeLieux);
 
 
 
@@ -87,6 +107,7 @@ class SortieController extends AbstractController
             'sortie' => $sortie,
             'session' =>$session,
             'lieux' => $lieux,
+            'lieuxRattache'=>$tableauDeLieux,
             'form' => $form->createView(),
             'form2' => $form2->createView(),
             'form3' => $form3->createView(),

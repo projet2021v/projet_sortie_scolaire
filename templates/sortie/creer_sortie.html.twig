@@ -5,12 +5,18 @@
 {% block titrePage %}
 <div class="ui two column centered grid">
     <div class="column">
-        <h1 class="ui centered grid">CRÉER UNE SORTIE</h1>
+        <h1 class="ui centered grid">Créer une sortie</h1>
     </div>
 </div>
 {% endblock %}
 
 {% block main %}
+    {#    {% for s in lieuxRattache %}#}
+    <script>
+        {#    {{ s.ville.nom }}#}
+    </script>
+
+    {#    {% endfor %}#}
     {{ app.user.site.nom }}
     <div class="ui two column centered grid">
         <div class="four column centered row">
@@ -29,31 +35,37 @@
 
             <div class="column">
                 <div>
-                    {{ form_row(form.site | quimper) }}
-                    <br>
-                    ville
-                    <br>
+{#                    {{ form_row(form.site) }}#}
+                    <div>
+                        <label for="">Ville organisatrice : </label>
+                        <p >{{ app.user.site.nom }}</p>
+                    </div>
+
                     <i id="plus" class="plus circle icon" onclick="ajoutDuLieu()"></i>
                     <div id="formulaireCache" onload="cacher()" style="display: none">
                         <div>
-                            {{ form_row(form.lieu) }}
+
+                            {{ form_row(form.lieu.ville.nom) }}
+                            {{ form_row(form.lieu.nom) }}
+                            {{ form_row(form.lieu.adresse) }}
+                            {{ form_row(form.lieu.ville.code_postal) }}
+
+{#                            {{ form_row(form.lieu) }}#}
                         </div>
                     </div>
+                    <div>
 
+                        <div>
+                            {{ form_label(form.lieu.ville.code_postal, 'Code postal :') }}
+                            <p > </p>
+                        </div>
+                        {{ form_row(form.lieu.latitude) }}
+                        {{ form_row(form.lieu.longitude) }}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-{#    <br>#}
-{#    rue#}
-{#    <br>#}
-{#    code_postal#}
-{#    <br>#}
-{#    latitude#}
-{#    <br>#}
-{#    longitude#}
-
-
 
     <div class="ui two column centered grid">
         <div class="seven column centered row">
@@ -77,22 +89,23 @@
         </div>
     </div>
 
-{{ form_start(form2)}}
 
-{{ form_widget(form2) }}
+{#{{ form_start(form2)}}#}
 
-{{ form_end(form2) }}
-    <h1>Formulaire 3</h1>
-    {{ form_start(form3)}}
+{#{{ form_widget(form2) }}#}
 
-    {{ form_widget(form3) }}
+{#{{ form_end(form2) }}#}
+{#    <h1>Formulaire 3</h1>#}
+{#    {{ form_start(form3)}}#}
 
-    {{ form_end(form3) }}
+{#    {{ form_widget(form3) }}#}
+
+{#    {{ form_end(form3) }}#}
 
 
-        <a type="button"  onclick="ajoutOption()">
-            <button class="big ui button blue"onclick="ajoutOption()" >Afficher</button>
-        </a>
+{#        <a type="button"  onclick="ajoutOption()">#}
+{#            <button class="big ui button blue"onclick="ajoutOption()" >Afficher</button>#}
+{#        </a>#}
 
 
     <script>
@@ -108,13 +121,12 @@
             div.appendChild(champFormulaire);
         }
 
-        function ajoutOption(){
-            let selectOption =  document.getElementById("ville_nom");
-            let option = document.createElement("option");
-            option.value = "Paris";
-            option.innerText = "paris";
-            selectOption.appendChild(option);
-        }
-
+        // function ajoutOption(){
+        //     let selectOption =  document.getElementById("ville_nom");
+        //     let option = document.createElement("option");
+        //     option.value = "Paris";
+        //     option.innerText = "paris";
+        //     selectOption.appendChild(option);
+        // }
     </script>
 {% endblock %}
