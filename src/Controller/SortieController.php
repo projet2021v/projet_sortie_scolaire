@@ -7,6 +7,7 @@ use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Ville;
 use App\Form\LieuType;
+use App\Form\SortieAnnulationType;
 use App\Form\SortieType;
 use App\Form\VilleType;
 
@@ -188,6 +189,48 @@ class SortieController extends AbstractController
 
         //redirection vers l'accueil
         return $this->redirectToRoute('main');
+    }
+
+
+    /**
+     * @Route("/sortie/{id}/cancel", name="annuler_sortie")
+     * @param Request $request
+     * @param Sortie $sortie
+     * @param EtatRepository $repo_etat
+     * @return Response
+     */
+    public function annuler_sortie(Request $request, Sortie $sortie, EtatRepository $repo_etat): Response
+    {
+        //création d'un formulaire sur la base de l'entité Participant
+        $form = $this->createForm(SortieAnnulationType::class, $sortie);
+
+        //hydratation du formualaire
+        $form->handleRequest($request);
+
+        //si le formulaire a été soumis
+        if($form->isSubmitted() && $form->isValid()) {
+            //récupération des états
+            $etat_annule = $repo_etat->findOneBySomeField(6);
+//            dd($etat_annule);
+
+            //mise à jour de la sortie
+            $sortie->setMotifAnnulation($form->get('motif_annulation')->getData());
+            $sortie->setEtat($etat_annule);
+//            $sortie->setNom("test");
+//            dd($sortie);
+
+            //mise à jour de la Sortie en base
+            $this->getDoctrine()->getManager()->flush();
+
+            //redirection vers la page d'affichage de la sortie
+            return $this->redirectToRoute('main');
+        }
+
+        //affichage de la page
+        return $this->render('sortie/annuler_sortie.html.twig', [
+            'sortie' => $sortie,
+            'form' => $form->createView()
+        ]);
     }
 
 

@@ -68,6 +68,13 @@ class SortieRepository extends ServiceEntityRepository
         //on récupère la date du jour
         $dateJour = new \DateTime();
 
+        $t = [];
+        foreach ($user->getInscriptions() as $v) {
+            $t[] = $v->getSortie()->getId();
+        }
+
+        dump($t);
+
         //on crée une requête
         $query = $this
             ->createQueryBuilder('s')
@@ -115,6 +122,28 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('site_id', $search->site_sortie);
         }
 
+        //quand la case "Sorties auxquelles je suis inscrit/e" est cochée
+        if(!empty($search->inscrit)) {
+            $query = $query
+                ->innerJoin('\App\Entity\Inscription','i', \Doctrine\ORM\Query\Expr\Join::WITH, 'i.sortie = s')
+                ->andWhere('i.participant = :user')
+                ->setParameter('user', $user);
+        }
+
+        //quand la case "Sorties auxquelles je ne suis pas inscrit/e" est cochée
+        if(!empty($search->non_inscrit)) {
+//            $query = $query
+//                ->innerJoin('\App\Entity\Inscription','i', \Doctrine\ORM\Query\Expr\Join::WITH, 'i.sortie = s')
+//                ->andWhere('i.participant != :user')
+//                ->setParameter('user', $user);
+
+            $query = $query
+                ->leftJoin('\App\Entity\Inscription','j', \Doctrine\ORM\Query\Expr\Join::WITH, 'j.sortie = s')
+                ->andWhere('j.participant IS NULL');
+        }
+
+//        dd($query->getQuery()->getResult());
+
         //récupération des différentes sorties retournées par la requête
         $result_sorties = $query->getQuery()->getResult();
 
@@ -141,7 +170,7 @@ class SortieRepository extends ServiceEntityRepository
      * @param EtatRepository $repo_etat
      * @return Etat[]
      */
-    public function getStatus(EtatRepository $repo_etat)
+    public function getStatus(EtatRepository $repo_etat): array
     {
         return $repo_etat->findAll();
     }
@@ -166,7 +195,7 @@ class SortieRepository extends ServiceEntityRepository
         $changement_a_effectuer = false;
 
         //si la sortie a été publiée
-        if ($sortie->getEtat()->getId() >= 2) {
+        if ($sortie->getEtat()->getId() >= 2 and $sortie->getEtat()->getId() != 6) {
             //si la date limite d'inscription n'est pas dépassée on passe à l'état "ouverte"
             if ($date_jourFormat < $date_limite and $sortie->getEtat()->getId() != $tab_status[1]->getId()) {
                 $sortie->setEtat($tab_status[1]);
