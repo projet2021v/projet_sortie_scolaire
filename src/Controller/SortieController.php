@@ -47,13 +47,14 @@ class SortieController extends AbstractController
         $tableauDeLieux = [];
 
         foreach ($sortiesEnBD as $sortieEnBD){
+//            dump($sortieEnBD->getSite()->getId());
             $lieuRattache = new Lieu();
             if($sortieEnBD->getSite()->getId() == $idSiteOrganisateur){
                 $lieuRattache = $sortieEnBD->getLieu();
                 $tableauDeLieux [] = $lieuRattache;
             }
         }
-        dump($tableauDeLieux);
+//        dump($tableauDeLieux);
 
 
 

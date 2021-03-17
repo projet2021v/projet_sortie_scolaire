@@ -11,12 +11,22 @@
 {% endblock %}
 
 {% block main %}
-    {#    {% for s in lieuxRattache %}#}
     <script>
-        {#    {{ s.ville.nom }}#}
+        let tableauLieux = [];
+        let i = 0;
+
     </script>
 
-    {#    {% endfor %}#}
+        {% for l in lieuxRattache %}
+    <script>
+        {#'{{ s.ville.code_postal }}'#}
+        let infoLieu = {"ville" : '{{ l.ville.nom }}', "lieu" : '{{ l.nom }}',  "rue" : '{{ l.adresse }}', "code_postal" : '{{ l.ville.getCodePostal() }}'  }
+        tableauLieux.push(infoLieu);
+        console.log(i++);
+        // console.log(tableauLieux);
+    </script>
+        {% endfor %}
+
     {{ app.user.site.nom }}
     <div class="ui two column centered grid">
         <div class="four column centered row">
@@ -109,6 +119,7 @@
 
 
     <script>
+        console.log(tableauLieux);
         function cacher(){
            document.getElementById("formulaireCache").style.visibility = "hidden";
         }
