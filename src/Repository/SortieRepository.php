@@ -194,4 +194,5 @@ class SortieRepository extends ServiceEntityRepository
             $em->flush();
         }
     }
+
 }
