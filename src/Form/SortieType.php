@@ -4,8 +4,11 @@ namespace App\Form;
 
 use App\Entity\Lieu;
 use App\Entity\Sortie;
+use App\Entity\Ville;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -40,7 +43,16 @@ class SortieType extends AbstractType
 
             //->add('site', null, ['choice_label' => 'nom', 'label' => 'Ville organisatrice'])
 
-            ->add('lieu', LieuType::class)
+            ->add('lieu', EntityType::class, [
+                'class' => Lieu::class,
+                'choice_label' => 'nom',
+                'label' => 'Lieu : '
+            ])
+            ->add('ville', EntityType::class, [
+                'class' => Ville::class,
+                'choice_label' => 'nom',
+                'label' => 'Ville : '
+            ])
 
 
 //            ->add('etat')

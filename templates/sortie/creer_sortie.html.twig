@@ -29,15 +29,19 @@
 
     <script>
         let rue = document.getElementById("rue");
-        let lieu = document.getElementById("lieux");
+        let ville = document.getElementById("sortie_ville");
+        let test = {{ lieux_asso }};
 
-        console.log(lieu.label);
-        console.log(lieu[lieu.value].innerText);
-        rue.innerText = lieu[lieu.value].innerText;
+        console.log(ville.value);
 
-        lieu.addEventListener("change", function() {
-            console.log(lieu[lieu.value].innerText);
-            rue.innerText = lieu[lieu.value].innerText;
+        for (const l in test) {
+            for (const x in l) {
+                console.log(x);
+            }
+        }
+
+        ville.addEventListener("change", function() {
+
         })
 
 
