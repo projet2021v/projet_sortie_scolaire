@@ -1,0 +1,164 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block main %}
+    <div class="ui container">
+
+        <div class="row" >
+            <div>
+                <h1 class="ui header">Date du jour : {{ "now"| date("d/m/Y") }}</h1>
+
+                <h1 class="ui header">Participant : {{ app.user.username}}  </h1>
+                <br>
+            </div>
+        </div>
+
+        <div>
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit">Rechercher</button>
+            {{ form_end(form) }}
+        </div>
+
+        <div class="row" >
+            <table class="ui celled  striped table">
+                <thead>
+                    <tr>
+                        <th>Nom de la sortie</th>
+                        <th>Date de la sortie</th>
+                        <th>Clôture</th>
+                        <th>inscriptions/places</th>
+                        <th>État</th>
+                        <th>Inscrit</th>
+                        <th>Organisateur</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for s in sorties %}
+{#                        {{ dump(s) }}#}
+
+{#                        {% for x in s.inscriptions %}#}
+{#                            {{ dump(x) }}#}
+{#                        {% endfor %}#}
+
+                        {# on continue d'afficher la sortie jusqu'à un mois après son déroulement #}
+                        {% if s.DateHeureDebut.modify('+1 month') >= date_jour %}
+
+                        {# on vérifie si l'utilisateur est inscrit ou pas (on renvoie un booléen) #}
+                        {% set inscrit = false %}
+                        {% for i in s.inscriptions %}
+                            {% if app.user.username == i.participant.username %}
+                                {% set inscrit = true %}
+                            {% endif %}
+                        {% endfor %}
+
+                        {# alimentation des cellules #}
+                        <tr id="testId">
+                            <td>{{ s.nom }}</td>
+                            <td>{{ s.DateHeureDebut.modify('-1 month') | date("d/m/Y H:i") }}</td>
+                            <td>{{ s.DateLimiteInscription | date("d/m/Y") }}</td>
+                            <td>{{ s.inscriptions|length }}/{{ s.NbInscriptionsMax }}</td>
+                            <td>{{ s.etat.libelle}}</td>
+                            <td>
+                                {# si l'utilisateur est inscrit, on marque la cellule d'une croix #}
+                                {% if inscrit == true %}
+                                    X
+                                {% endif %}
+                            </td>
+                            <td><a href="{{ path('afficher_profil', {'id': s.organisateur.id}) }}">{{ s.organisateur.username }}</a></td>
+                            <td>
+                                {# si l'utilisateur loggé est l'organisateur, il pourra (suivant l'état de la sortie)
+                                publier, afficher ou annuler la sortie #}
+                                {% if s.organisateur.username == app.user.username %}
+
+                                    {% if s.etat.id >= 4 %} {# en cours, passée, annulée #}
+                                        <a href="{{ path('afficher_sortie', {'id': s.id}) }}">Afficher</a>
+                                    {% elseif s.etat.id >= 2 %} {# ouverte, clôturée #}
+                                        <a href="{{ path('afficher_sortie', {'id': s.id}) }}">Afficher</a> - <a href="{{ path('annuler_sortie', {'id': s.id}) }}">Annuler</a>
+                                    {% elseif s.etat.id == 1 %} {# créée #}
+                                        <a href="">Modifier</a> - <a href="{{ path('publier_sortie', {'id': s.id}) }}">Publier</a>
+                                    {% endif %}
+
+                                {# si l'utilisateur loggé n'est pas l'organisateur, il pourra (suivant l'état de la sortie)
+                                afficher, s'inscrire à ou se désinscrire de la sortie #}
+                                {% else %}
+
+                                    {% if s.etat.id == 1 %} {# créée #}
+                                        CRÉÉE
+                                    {% elseif s.etat.id == 2 %} {# ouverte #}
+                                        <a href="{{ path('afficher_sortie', {'id': s.id}) }}">Afficher</a>
+                                        {% if inscrit == true %}
+                                            - <a href="{{ path('desinscription', {'id': s.id}) }}">Se désinscrire</a>
+                                        {% else %}
+                                            - <a href="{{ path('inscription', {'id': s.id}) }}">S'inscrire</a>
+                                        {% endif %}
+                                    {% elseif s.etat.id >= 3 %} {# clôturée, en cours, passée, annulée #}
+                                        <a href="{{ path('afficher_sortie', {'id': s.id}) }}">Afficher</a>
+                                    {% endif %}
+
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+
+                </tbody>
+            </table>
+
+            <button class="ui blue button big ">Créer une sortie<a href=""></a></button>
+        </div>
+
+    </div>
+
+    <script>
+        //empêche de cocher en même temps les cases "Sorties auxquelles je suis inscrit/e" et "Sorties auxquelles je ne suis pas inscrit/e"
+
+        let chk_inscrit = document.getElementById("inscrit");
+        let chk_non_inscrit = document.getElementById("non_inscrit");
+
+        // function test(a, b) {
+        //     if(a.checked) {
+        //         a.removeAttribute("disabled");
+        //         b.setAttribute("disabled", "disabled");
+        //     } else {
+        //         b.removeAttribute("disabled");
+        //     }
+        // }
+
+        if(chk_inscrit.checked) {
+            chk_inscrit.removeAttribute("disabled");
+            chk_non_inscrit.setAttribute("disabled", "disabled");
+        } else {
+            chk_non_inscrit.removeAttribute("disabled");
+        }
+
+        if(chk_non_inscrit.checked) {
+            chk_non_inscrit.removeAttribute("disabled");
+            chk_inscrit.setAttribute("disabled", "disabled");
+        } else {
+            chk_inscrit.removeAttribute("disabled");
+        }
+
+        chk_inscrit.addEventListener("change", function(){
+            if(chk_inscrit.checked) {
+                chk_inscrit.removeAttribute("disabled");
+                chk_non_inscrit.setAttribute("disabled", "disabled");
+            } else {
+                chk_non_inscrit.removeAttribute("disabled");
+            }
+        });
+
+        chk_non_inscrit.addEventListener("change", function(){
+            if(chk_non_inscrit.checked) {
+                chk_non_inscrit.removeAttribute("disabled");
+                chk_inscrit.setAttribute("disabled", "disabled");
+            } else {
+                chk_inscrit.removeAttribute("disabled");
+            }
+        });
+    </script>
+
+{% endblock %}
+

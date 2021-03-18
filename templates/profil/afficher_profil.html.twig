@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon profil{% endblock %}
+
+{% block main %}
+<h1> <div class= "ui  centered column grid"> Afficher le profil </h1>
+
+<div class="ui column">
+
+ <div class="ui centered grid">
+
+  <div style="line-height: 40px;display: flex">
+
+   <div style="text-align:left">
+
+
+   <h1>  {{ participant.username }}</h1>
+
+    Prénom :<br>
+    Nom :<br>
+    Téléphone :<br>
+    Email :<br>
+    Ville de rattachement :<br>
+   </div>
+
+  </div>
+
+  <div style="line-height: 40px;display: flex">
+
+   <div style="text-align:left">
+
+    {{ participant.prenom }}<br>
+     {{ participant.nom }}<br>
+   {{ participant.telephone }}<br>
+     {{ participant.mail }}<br>
+     {{ participant.site.nom }} <br>
+   </div>
+  </div>
+ </div>
+ <div class="ui centered column grid">
+
+  <button class="ui button"><a type="button" href="{{ path('main') }}">Retour</a> </button>
+  <br>
+  <button class="ui button"> <a type="button" href="{{ path('modifier_profil', {'id': participant.id}) }}">Modifier le profil</a>
+ </div>
+{% endblock %}

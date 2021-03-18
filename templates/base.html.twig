@@ -1,19 +1,60 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
-        {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
-        {% endblock %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 
-        {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+</head>
+<body>
+
+<!-- nav -->
+<div class="ui secondary pointing menu">
+    <div class="left menu">
+        <a class="ui item" href="{{ path('main')}}">
+            <img src="{{ asset('img/logo-eni.png') }}" alt="logo ENI"/>
+        </a>
+        <a class="ui item">
+            Sortie.com
+        </a>
+    </div>
+
+    <div class="right menu">
+        <a class="ui item active" href="">
+            Villes
+        </a>
+        <a class="ui item active" href="">
+            Sites
+        </a>
+        <a class="ui item active" href="{{ path('main')}}">
+            Accueil
+        </a>
+        <a class="ui item active" href="{# {{ path('afficher_profil', {'id': app.user.id})}} #}">
+            Mon profil
+        </a>
+        <a class="ui item active" href="{{ path('app_logout')}}">
+            Se déconncter
+        </a>
+    </div>
+</div>
+
+<section>
+    {% block titrePage %}{% endblock %}
+</section>
+
+
+
+
+<section>
+    {% block main %}{% endblock %}
+</section>
+
+<!-- Footer -->
+<!--<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>-->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+</body>
+
 </html>
