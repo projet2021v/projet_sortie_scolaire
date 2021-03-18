@@ -4,21 +4,39 @@
 
 {% block main %}
     <div class="ui container">
-
-        <div class="row" >
+        <div class="column">
             <div>
                 <h1 class="ui header">Date du jour : {{ "now"| date("d/m/Y") }}</h1>
-
                 <h1 class="ui header">Participant : {{ app.user.username}}  </h1>
                 <br>
             </div>
         </div>
 
-        <div>
-            {{ form_start(form) }}
-            {{ form_widget(form) }}
-            <button type="submit">Rechercher</button>
-            {{ form_end(form) }}
+        <div class="ui ten column grid">
+            <div class="ui form">
+                {{ form_start(form) }}
+                <div class="filtreRecherche">
+                <div class="">
+                    <div class="field">{{ form_label(form.site_sortie) }}{{ form_widget(form.site_sortie) }}</div>
+                    <div class="field">{{ form_label(form.mot_cle) }}{{ form_widget(form.mot_cle) }}</div>
+                    <div class="inline field">{{ form_label(form.date_min) }}{{ form_widget(form.date_min) }}&nbsp;&nbsp;
+                    {{ form_label(form.date_max) }}&nbsp;&nbsp;{{ form_widget(form.date_max) }}</div>
+                </div>
+
+                <div class="">
+                    <div class="inline field"><div class="ui checkbox">{{ form_widget(form.orga) }}{{ form_label(form.orga) }}</div></div>
+                    <div class="inline field"><div class="ui checkbox">{{ form_widget(form.inscrit) }}{{ form_label(form.inscrit) }}</div></div>
+                    <div class="inline field"><div class="ui checkbox">{{ form_widget(form.non_inscrit) }}{{ form_label(form.non_inscrit) }}</div></div>
+                    <div class="inline field"><div class="ui checkbox">{{ form_widget(form.passee) }}{{ form_label(form.passee) }}</div></div>
+                </div>
+
+                <div class="">
+                    <button type="submit" class="ui big olive button">Rechercher</button>
+                </div>
+                </div>
+
+                {{ form_end(form) }}
+            </div>
         </div>
 
         <div class="row" >
@@ -28,7 +46,7 @@
                         <th>Nom de la sortie</th>
                         <th>Date de la sortie</th>
                         <th>Clôture</th>
-                        <th>inscriptions/places</th>
+                        <th>Inscriptions/places</th>
                         <th>État</th>
                         <th>Inscrit</th>
                         <th>Organisateur</th>
@@ -37,11 +55,8 @@
                 </thead>
                 <tbody>
                     {% for s in sorties %}
-{#                        {{ dump(s) }}#}
-
-{#                        {% for x in s.inscriptions %}#}
-{#                            {{ dump(x) }}#}
-{#                        {% endfor %}#}
+                        {# si la sortie n'est pas à l'état "créee" #}
+{#                        {% if s.etat.id != 1 %}#}
 
                         {# on continue d'afficher la sortie jusqu'à un mois après son déroulement #}
                         {% if s.DateHeureDebut.modify('+1 month') >= date_jour %}
@@ -109,23 +124,12 @@
 
             <a type="button" class="ui big blue button" href="{{ path('creer_sortie') }}">Créer une sortie</a>
         </div>
-
     </div>
 
     <script>
         //empêche de cocher en même temps les cases "Sorties auxquelles je suis inscrit/e" et "Sorties auxquelles je ne suis pas inscrit/e"
-
         let chk_inscrit = document.getElementById("inscrit");
         let chk_non_inscrit = document.getElementById("non_inscrit");
-
-        // function test(a, b) {
-        //     if(a.checked) {
-        //         a.removeAttribute("disabled");
-        //         b.setAttribute("disabled", "disabled");
-        //     } else {
-        //         b.removeAttribute("disabled");
-        //     }
-        // }
 
         if(chk_inscrit.checked) {
             chk_inscrit.removeAttribute("disabled");

@@ -1,0 +1,10 @@
+.filtreRecherche {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+}
+
+.filtreRecherche > div {
+    margin-right: 3rem;
+}

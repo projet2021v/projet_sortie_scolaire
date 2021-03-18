@@ -12,18 +12,66 @@
 
 
 {% block main %}
-    {{ dump(lieux_asso) }}
-    {{ dump(villes_asso) }}
+{#    {{ dump(lieux_asso) }}#}
+{#    {{ dump(villes_asso) }}#}
+
+{#    {{ form_start(form) }}#}
+{#    {{ form_widget(form) }}#}
+{#    <button type="submit">Enregistrer la sortie</button>#}
+{#    {{ form_end(form) }}#}
 
     {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit">Enregistrer la sortie</button>
+    <div class="ui two column centered grid">
+        <div class="eight column centered row">
+
+            <div class="column">
+                <div class="ui form">
+                    <div class="field">
+                        <div>{{ form_label(form.nom) }}</div><div>{{ form_widget(form.nom) }}</div>
+                    </div>
+                    <div class="field">
+                        <div>{{ form_label(form.date_heure_debut) }}</div><div>{{ form_widget(form.date_heure_debut) }}</div>
+                        </div>
+                    <div class="field">
+                        <div>{{ form_label(form.date_limite_inscription) }}</div><div>{{ form_widget(form.date_limite_inscription) }}</div>
+                        </div>
+                    <div class="field">
+                        <div>{{ form_label(form.nb_inscriptions_max) }}</div><div>{{ form_widget(form.nb_inscriptions_max) }}</div>
+                        </div>
+                    <div class="field">
+                        <div>{{ form_label(form.duree) }}</div><div>{{ form_widget(form.duree) }}</div>
+                        </div>
+                    <div class="field">
+                        <div>{{ form_label(form.infos_sortie) }}</div><div>{{ form_widget(form.infos_sortie) }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="ui form">
+                    <div class="field">
+                        <div>{{ form_label(form.ville) }}</div><div>{{ form_widget(form.ville) }}</div>
+                    </div>
+                    <div class="field">
+                        <div>{{ form_label(form.lieu) }}</div><div>{{ form_widget(form.lieu) }}</div>
+                    </div>
+{#                    <div class="field">#}
+{#                        <div>Rue : </div><div id="adresse"></div>#}
+{#                    </div>#}
+                </div>
+            </div>
+
+        </div>
+
+        <button class="ui big blue button" type="submit">Enregistrer la sortie</button>
+        <button class="ui big blue button">Publier la sortie</button>
+        <a type="button" class="ui big blue button" href="{{ path('main') }}">Annuler</a>
+
+    </div>
     {{ form_end(form) }}
 
-    <script>
-        let test = document.getElementById("ville");
-        console.log(test);
-    </script>
+
+
 
 {#    <script>#}
 {#        //on récupère les champs select ville et lieu#}
@@ -72,138 +120,3 @@
 {#    </script>#}
 
 {% endblock %}
-
-
-
-
-{#{% block main %}#}
-{#    <script>#}
-{#        let tableauLieux = [];#}
-{#        let i = 0;#}
-
-{#    </script>#}
-
-{#        {% for l in lieuxRattache %}#}
-{#    <script>#}
-{#        #}{#'{{ s.ville.code_postal }}'#}
-{#        let infoLieu = {"ville" : '{{ l.ville.nom }}', "lieu" : '{{ l.nom }}',  "rue" : '{{ l.adresse }}', "code_postal" : '{{ l.ville.getCodePostal() }}'  }#}
-{#        tableauLieux.push(infoLieu);#}
-{#        console.log(i++);#}
-{#        // console.log(tableauLieux);#}
-{#    </script>#}
-{#        {% endfor %}#}
-
-{#    {{ app.user.site.nom }}#}
-{#    <div class="ui two column centered grid">#}
-{#        <div class="four column centered row">#}
-{#            <div class="column">#}
-
-{#    {{ form_start(form) }}#}
-{#                <div>#}
-{#                    {{ form_row(form.nom) }}#}
-{#                    {{ form_row(form.date_heure_debut) }}#}
-{#                    {{ form_row(form.date_limite_inscription) }}#}
-{#                    {{ form_row(form.nb_inscriptions_max) }}#}
-{#                    {{ form_row(form.duree) }}#}
-{#                    {{ form_row(form.infos_sortie) }}#}
-{#                </div>#}
-{#            </div>#}
-
-{#            <div class="column">#}
-{#                <div>#}
-{#                    {{ form_row(form.site) }}#}
-{#                    <div>#}
-{#                        <label for="">Ville organisatrice : </label>#}
-{#                        <p >{{ app.user.site.nom }}</p>#}
-{#                    </div>#}
-
-{#                    <i id="plus" class="plus circle icon" onclick="ajoutDuLieu()"></i>#}
-{#                    <div id="formulaireCache" onload="cacher()" style="display: none">#}
-{#                        <div>#}
-
-{#                            {{ form_row(form.lieu.ville.nom) }}#}
-{#                            {{ form_row(form.lieu.nom) }}#}
-{#                            {{ form_row(form.lieu.adresse) }}#}
-{#                            {{ form_row(form.lieu.ville.code_postal) }}#}
-
-{#                            {{ form_row(form.lieu) }}#}
-{#                        </div>#}
-{#                    </div>#}
-{#                    <div>#}
-
-{#                        <div>#}
-{#                            {{ form_label(form.lieu.ville.code_postal, 'Code postal :') }}#}
-{#                            <p > </p>#}
-{#                        </div>#}
-{#                        {{ form_row(form.lieu.latitude) }}#}
-{#                        {{ form_row(form.lieu.longitude) }}#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-
-{#    <div class="ui two column centered grid">#}
-{#        <div class="seven column centered row">#}
-{#            <div class="column">#}
-{#                <a type="button" href="{{ path('creer_sortie') }}">#}
-{#                    <button class="big ui button blue">Enregistrer</button>#}
-{#                </a>#}
-{#            </div>#}
-{#            {{ form_end(form) }}#}
-{#            <div class="column">#}
-{#                <a type="button" href="{{ path('main') }}">#}
-{#                    <button class="big ui button blue">Publier la sortie</button>#}
-{#                </a>#}
-{#            </div>#}
-
-{#            <div class="column">#}
-{#                <a type="button" href="{{ path('main') }}">#}
-{#                    <button class="big ui button blue" >Annuler</button>#}
-{#                </a>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-
-
-{#{{ form_start(form2)}}#}
-
-{#{{ form_widget(form2) }}#}
-
-{#{{ form_end(form2) }}#}
-{#    <h1>Formulaire 3</h1>#}
-{#    {{ form_start(form3)}}#}
-
-{#    {{ form_widget(form3) }}#}
-
-{#    {{ form_end(form3) }}#}
-
-
-{#        <a type="button"  onclick="ajoutOption()">#}
-{#            <button class="big ui button blue"onclick="ajoutOption()" >Afficher</button>#}
-{#        </a>#}
-
-
-{#    <script>#}
-{#        console.log(tableauLieux);#}
-{#        function cacher(){#}
-{#           document.getElementById("formulaireCache").style.visibility = "hidden";#}
-{#        }#}
-
-{#        function ajoutDuLieu(){#}
-{#            console.log('J affiche');#}
-{#            document.getElementById("formulaireCache").style = "block";#}
-{#            let div = document.getElementById("plus");#}
-{#            let champFormulaire = document.createElement("sortie_lieu");#}
-{#            div.appendChild(champFormulaire);#}
-{#        }#}
-
-{#        // function ajoutOption(){#}
-{#        //     let selectOption =  document.getElementById("ville_nom");#}
-{#        //     let option = document.createElement("option");#}
-{#        //     option.value = "Paris";#}
-{#        //     option.innerText = "paris";#}
-{#        //     selectOption.appendChild(option);#}
-{#        // }#}
-{#    </script>#}
-{#{% endblock %}#}

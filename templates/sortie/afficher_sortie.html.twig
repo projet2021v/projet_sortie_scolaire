@@ -1,34 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Créer une sortie{% endblock %}
+{% block title %}Afficher une sortie{% endblock %}
 
 {% block main %}
 
-       <h1> <div class= "ui centered column grid"> AFFICHER UNE SORTIE </h1>
+    <div class= "ui centered column grid" style="margin-top: 1rem">
+        <h1>{{ sortie.getNom()|upper }}</h1>
+    </div>
 
-<div class="ui column">
+{% if sortie.getMotifAnnulation() != null %}
+    <div class="ui four column centered grid" style="margin-top: 1rem">
+        <div class="column">
+
+            <div class="ui negative message">
+                <h2 class="ui center aligned header">ATTENTION</h2>
+                <h3 class="ui center aligned header">Cette sortie a été annulée pour cause de :
+                <br>"&nbsp;{{ sortie.getMotifAnnulation() }}&nbsp;"</h3>
+            </div>
+
+        </div>
+    </div>
+
+{% endif %}
+
+<div class="ui column" style="margin-top: 1rem">
 
     <div class="ui centered grid">
 
         <div style="line-height: 40px;display: flex">
 
             <div style="text-align:left">
-                Nom de la sortie :<br>
-                Date et heure de la sortie :<br>
-                Date limite d'inscription :<br>
-                Nombre de places :<br>
-                Durée :<br>
-                Description et infos :<br>
-            </div>
-
-            <div style="text-align:left">
-                {{ sortie.getNom() }}<br>
-                {{ sortie.getDateHeureDebut()|date('d/m/Y à H:i') }}<br>
-                {{ sortie.getDateLimiteInscription()|date('d/m/Y') }}<br>
-                {{ sortie.getNbInscriptionsMax() }} personnes<br>
-                {{ sortie.getDuree() }} min<br>
-                {{ sortie.getInfosSortie() }}<br>
-
+                <span class="ui header">Nom de la sortie : </span>{{ sortie.getNom() }}<br>
+                <span class="ui header">Date et heure de la sortie : </span>{{ sortie.getDateHeureDebut()|date('d/m/Y à H:i') }}<br>
+                <span class="ui header">Date limite d'inscription : </span>{{ sortie.getDateLimiteInscription()|date('d/m/Y') }}<br>
+                <span class="ui header">Nombre de places : </span>{{ sortie.getNbInscriptionsMax() }} personnes<br>
+                <span class="ui header">Durée : </span>{{ sortie.getDuree() }} min<br>
+                <span class="ui header">Description et infos : </span>{{ sortie.getInfosSortie() }}<br>
             </div>
 
         </div>
@@ -36,72 +43,51 @@
         <div style="line-height: 40px;display: flex">
 
             <div style="text-align:left">
-                Ville organisatrice :<br>
-                Ville :<br>
-                Lieu :<br>
-                Adresse :<br>
-                Code postal :<br>
-                Latitude :<br>
-                Longitude :<br>
-            </div>
-            <div style="text-align:left">
-                {{ sortie.getSite().getNom() }}<br>
-                {{ sortie.getLieu().getVille().getNom() }}<br>
-                {{ sortie.getLieu().getNom() }}<br>
-                {{ sortie.getLieu().getAdresse() }}<br>
-                {{ sortie.getLieu().getVille().getCodePostal() }}<br>
-                {{ sortie.getLieu().getLatitude() }}<br>
-                {{ sortie.getLieu().getLongitude() }} <br>
+                <span class="ui header">Ville organisatrice : </span>{{ sortie.getSite().getNom() }}<br>
+                <span class="ui header">Ville : </span>{{ sortie.getLieu().getVille().getNom() }}<br>
+                <span class="ui header">Lieu : </span>{{ sortie.getLieu().getNom() }}<br>
+                <span class="ui header">Adresse : </span>{{ sortie.getLieu().getAdresse() }}<br>
+                <span class="ui header">Code postal : </span>{{ sortie.getLieu().getVille().getCodePostal() }}<br>
+                <span class="ui header">Latitude : </span>{{ sortie.getLieu().getLatitude() }}&nbsp;&nbsp;|&nbsp;&nbsp;
+                <span class="ui header">Longitude : </span>{{ sortie.getLieu().getLongitude() }}
             </div>
 
         </div>
 
     </div>
+</div>
 
-    <div class="ui centered column grid">
+<div class="ui centered column grid" style="margin-top: 1rem">
 
-        <button class="ui button"><a type="button" href="{{ path('main') }}">Retour</a></button>
-        <br>
-        <button class="ui button"> <a type="button" href="{{ path('modifier_sortie', {'id': sortie.id}) }}"> Modifier la sortie</a></button>
-    </div>
+    <a type="button" class="ui big blue button" href="{{ path('main') }}">Retour</a>
+    <br>
+    {# si la sortie a été annulée, on ne peut plus la modifier #}
     {# si l'utilisateur loggé est l'organisateur, alors il peut modifier la sortie #}
-    {% if sortie.organisateur.username == app.user.username %}
-
+    {% if sortie.getMotifAnnulation() == null and sortie.getOrganisateur() == app.user %}
+    <a type="button" class="ui big orange button" href="{{ path('modifier_sortie', {'id': sortie.id}) }}"> Modifier la sortie</a>
     {% endif %}
+</div>
 
-    <table class="ui celled  striped table">
-        <thead>
-        <tr>
-            <th>Pseudo</th>
-            <th>Nom</th>
-        </tr>
-        </thead>
-        <tbody>
-
-
-        {% for inscrit in listeInscriptions %}
-            <tr id="testId" >
-                <td>{{ inscrit.participant.username }}</td>
-                <td><a href="{{ path('afficher_profil', {'id': inscrit.participant.id}) }}">{{ inscrit.participant.nom }}</a></td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <button onclick="ouvrire()">Test</button>
-    <a href="javascript:traductionElement();">traduction</a>
-    <div id="test" />
-
-    <script>
-        function ouvrire(){
-            var nom = prompt("Entrez votre nom: ", "alex");
-            document.write("Vous avez entré: " + nom);
-            var prenom = prompt("Entrez votre nom: ", "alex");
-            document.write("Vous avez entré: " + prenom);
-        }
-
-    </script>
-
-
-
-    {% endblock %}
+{% if listeInscriptions|length > 0 %}
+    <div class="ui four column grid" style="margin-top: 1rem">
+        <div class="column">
+            <h4 class="header">Liste des participants inscrits :</h4>
+            <table class="ui celled striped table">
+                <thead>
+                    <tr>
+                        <th>Pseudo</th><th>Nom</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for inscrit in listeInscriptions %}
+                        <tr id="testId" >
+                            <td><a href="{{ path('afficher_profil', {'id': inscrit.participant.id}) }}">{{ inscrit.participant.username }}</a></td>
+                            <td>{{ inscrit.participant.prenom }} {{ inscrit.participant.nom|upper }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

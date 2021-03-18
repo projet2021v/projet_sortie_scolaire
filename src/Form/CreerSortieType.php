@@ -19,7 +19,7 @@ class CreerSortieType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class, [
-                'label' => 'Nom sortie : '
+                'label' => 'Nom de la sortie : '
             ])
 
             ->add('date_heure_debut',

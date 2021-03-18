@@ -20,7 +20,7 @@ class SearchType extends AbstractType
     {
        $builder
        ->add('mot_cle', TextType::class, [
-                  'label' => false,
+                  'label' => 'Le nom de la sortie contient : ',
                   'required' => false,
                   'attr' => [
                       'placeholder' => 'Rechercher'

@@ -3,44 +3,28 @@
 {% block title %}Mon profil{% endblock %}
 
 {% block main %}
-<h1> <div class= "ui  centered column grid"> Afficher le profil </h1>
 
-<div class="ui column">
+<div class="ui one centered column grid">
+    <div class="three wide column">
 
- <div class="ui centered grid">
+        <h1 class="ui center aligned header">{{ participant.username|upper }}</h1>
 
-  <div style="line-height: 40px;display: flex">
+        <div class="">
+            <span class="ui header">Prénom : </span>{{ participant.prenom }}<br>
+            <span class="ui header">Nom : </span>{{ participant.nom }}<br>
+            <span class="ui header">Téléphone : </span>{{ participant.telephone }}<br>
+            <span class="ui header">Email : </span>{{ participant.mail }}<br>
+            <span class="ui header">Ville de rattachement : </span>{{ participant.site.nom }}<br>
+        </div>
 
-   <div style="text-align:left">
+        <div class="ui ">
+            {% if participant == app.user %}
+            <a type="button" class="ui big orange button" href="{{ path('modifier_profil', {'id': participant.id}) }}">Modifier le profil</a>
+            {% endif %}
+            <a type="button" class="ui big blue button" href="{{ path('main') }}">Retour</a>
+        </div>
 
+    </div>
+</div>
 
-   <h1>  {{ participant.username }}</h1>
-
-    Prénom :<br>
-    Nom :<br>
-    Téléphone :<br>
-    Email :<br>
-    Ville de rattachement :<br>
-   </div>
-
-  </div>
-
-  <div style="line-height: 40px;display: flex">
-
-   <div style="text-align:left">
-
-    {{ participant.prenom }}<br>
-     {{ participant.nom }}<br>
-   {{ participant.telephone }}<br>
-     {{ participant.mail }}<br>
-     {{ participant.site.nom }} <br>
-   </div>
-  </div>
- </div>
- <div class="ui centered column grid">
-
-  <button class="ui button"><a type="button" href="{{ path('main') }}">Retour</a> </button>
-  <br>
-  <button class="ui button"> <a type="button" href="{{ path('modifier_profil', {'id': participant.id}) }}">Modifier le profil</a>
- </div>
 {% endblock %}

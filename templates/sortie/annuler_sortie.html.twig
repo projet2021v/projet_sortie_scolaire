@@ -4,22 +4,24 @@
 
 {% block main %}
 
-    <h1>ANNULER UNE SORTIE</h1>
+    <div class="ui one centered column grid">
+        <div class="four wide column">
 
-    <div>
-        Nom de la sortie : {{ sortie.getNom() }}<br>
-        Date de la sortie : {{ sortie.getDateHeureDebut()|date('d/m/Y') }}<br>
-        Ville organisatrice : {{ sortie.getSite().getNom() }}<br>
-        Lieu : {{ sortie.getLieu().getNom() }} {{ sortie.getLieu().getVille().getCodePostal() }} {{ sortie.getLieu().getVille().getNom() }}<br>
+            <h1 class="ui center aligned header">ANNULER UNE SORTIE</h1>
 
-        {{ form_start(form) }}
-        {{ form_row(form) }}
-        <button type="submit">Annuler la sortie</button>
-        {{ form_end(form) }}
+            <div><span class="ui header">Nom de la sortie : </span>{{ sortie.getNom() }}</div>
+            <div><span class="ui header">Date de la sortie : </span>{{ sortie.getDateHeureDebut()|date('d/m/Y') }}</div>
+            <div><span class="ui header">Ville organisatrice : </span>{{ sortie.getSite().getNom() }}</div>
+            <div><span class="ui header">Lieu : {{ sortie.getLieu().getNom() }} </span>{{ sortie.getLieu().getVille().getCodePostal() }} {{ sortie.getLieu().getVille().getNom() }}</div>
+
+            <div class="ui form">
+                {{ form_start(form) }}
+                <div class="inline field"><span class="ui header">{{ form_label(form.motif_annulation) }}</span>{{ form_widget(form.motif_annulation) }}</div>
+                <button type="submit" class="ui big red button">Annuler la sortie</button>
+                <a type="button" class="ui big blue button" href="{{ path('main') }}">Retour à l'accueil</a>
+                {{ form_end(form) }}
+            </div>
+
+        </div>
     </div>
-
-{#    <a type="button" href="{{ path('annuler_sortie', {'id': sortie.id}) }}">Annuler la sortie</a><br>#}
-    <a type="button" href="{{ path('main') }}">Retour à l'accueil</a><br>
-
-
 {% endblock %}
