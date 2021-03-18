@@ -6,10 +6,8 @@ use App\Data\SearchData;
 use App\Entity\Etat;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\User\UserInterface;
-use function mysql_xdevapi\getSession;
 use Doctrine\ORM\EntityManagerInterface;
 
 
@@ -68,6 +66,12 @@ class SortieRepository extends ServiceEntityRepository
         //on récupère la date du jour
         $dateJour = new \DateTime();
 
+        //on récupère les id des sorties auxquelles l'utilisateur est inscrit
+        $tableau_inscriptions = [];
+        foreach ($user->getInscriptions() as $inscription) {
+            $tableau_inscriptions[] = $inscription->getSortie()->getId();
+        }
+
         //on crée une requête
         $query = $this
             ->createQueryBuilder('s')
@@ -115,6 +119,28 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('site_id', $search->site_sortie);
         }
 
+        //quand la case "Sorties auxquelles je suis inscrit/e" est cochée
+        //(ici on recherche les sorties qui ont une inscription dont le participant est l'utilisateur)
+        if(!empty($search->inscrit)) {
+            $query = $query
+                ->innerJoin('\App\Entity\Inscription','i', \Doctrine\ORM\Query\Expr\Join::WITH, 'i.sortie = s')
+                ->andWhere('i.participant = :user')
+                ->setParameter('user', $user)
+            ;
+        }
+
+        //quand la case "Sorties auxquelles je ne suis pas inscrit/e" est cochée
+        //(ici on recherche les sorties dont aucune inscription ne correspond aux inscriptions de l'utilisateur
+        //ainsi que les sorties qui n'ont aucune inscription)
+        if(!empty($search->non_inscrit)) {
+            $query = $query
+                ->leftJoin('\App\Entity\Inscription','i', \Doctrine\ORM\Query\Expr\Join::WITH, 'i.sortie = s')
+                ->orWhere('i.sortie NOT IN(:tableau_inscriptions)')
+                ->orWhere('i.participant IS NULL')
+                ->setParameter('tableau_inscriptions', $tableau_inscriptions)
+            ;
+        }
+
         //récupération des différentes sorties retournées par la requête
         $result_sorties = $query->getQuery()->getResult();
 
@@ -141,7 +167,7 @@ class SortieRepository extends ServiceEntityRepository
      * @param EtatRepository $repo_etat
      * @return Etat[]
      */
-    public function getStatus(EtatRepository $repo_etat)
+    public function getStatus(EtatRepository $repo_etat): array
     {
         return $repo_etat->findAll();
     }
@@ -166,7 +192,7 @@ class SortieRepository extends ServiceEntityRepository
         $changement_a_effectuer = false;
 
         //si la sortie a été publiée
-        if ($sortie->getEtat()->getId() >= 2) {
+        if ($sortie->getEtat()->getId() >= 2 and $sortie->getEtat()->getId() != 6) {
             //si la date limite d'inscription n'est pas dépassée on passe à l'état "ouverte"
             if ($date_jourFormat < $date_limite and $sortie->getEtat()->getId() != $tab_status[1]->getId()) {
                 $sortie->setEtat($tab_status[1]);
