@@ -47,4 +47,15 @@ class InscriptionRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findByIdSortie($value)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.sortie = :val')
+            ->setParameter('val', $value)
+//            ->orderBy('i.id', 'ASC')
+//            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

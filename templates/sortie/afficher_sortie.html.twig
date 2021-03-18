@@ -69,4 +69,39 @@
 
     {% endif %}
 
-{% endblock %}
+    <table class="ui celled  striped table">
+        <thead>
+        <tr>
+            <th>Pseudo</th>
+            <th>Nom</th>
+        </tr>
+        </thead>
+        <tbody>
+
+
+        {% for inscrit in listeInscriptions %}
+            <tr id="testId" >
+                <td>{{ inscrit.participant.username }}</td>
+                <td><a href="{{ path('afficher_profil', {'id': inscrit.participant.id}) }}">{{ inscrit.participant.nom }}</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <button onclick="ouvrire()">Test</button>
+    <a href="javascript:traductionElement();">traduction</a>
+    <div id="test" />
+
+    <script>
+        function ouvrire(){
+            var nom = prompt("Entrez votre nom: ", "alex");
+            document.write("Vous avez entré: " + nom);
+            var prenom = prompt("Entrez votre nom: ", "alex");
+            document.write("Vous avez entré: " + prenom);
+        }
+
+    </script>
+
+
+
+    {% endblock %}

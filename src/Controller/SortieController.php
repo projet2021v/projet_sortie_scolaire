@@ -13,6 +13,7 @@ use App\Form\SortieAnnulationType;
 use App\Form\SortieType;
 use App\Form\VilleType;
 
+use App\Repository\InscriptionRepository;
 use App\Repository\LieuRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SiteRepository;
@@ -206,11 +207,18 @@ class SortieController extends AbstractController
      * @param Sortie $sortie
      * @return Response
      */
-    public function afficher_sortie(Sortie $sortie): Response
+    public function afficher_sortie(Sortie $sortie, InscriptionRepository $inscriptionRepository, $id): Response
     {
+        /*ajout du mercredi soir*/
+        $listeInscriptions = $inscriptionRepository->findByIdSortie($id);
+        dump($listeInscriptions);
+
+        /*fin ajout du mercredi soir*/
+
         //affichage de la page
         return $this->render('sortie/afficher_sortie.html.twig', [
-            'sortie' => $sortie
+            'sortie' => $sortie,
+            'listeInscriptions'=>$listeInscriptions
         ]);
     }
 
