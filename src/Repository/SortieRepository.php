@@ -137,7 +137,9 @@ class SortieRepository extends ServiceEntityRepository
                 ->leftJoin('\App\Entity\Inscription','i', \Doctrine\ORM\Query\Expr\Join::WITH, 'i.sortie = s')
                 ->orWhere('i.sortie NOT IN(:tableau_inscriptions)')
                 ->orWhere('i.participant IS NULL')
+                ->andWhere('s.organisateur != :user')
                 ->setParameter('tableau_inscriptions', $tableau_inscriptions)
+                ->setParameter('user', $user)
             ;
         }
 
