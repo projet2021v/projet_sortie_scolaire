@@ -10,94 +10,160 @@
 </div>
 {% endblock %}
 
+
 {% block main %}
-    <script>
-        let tableauLieux = [];
-        let i = 0;
-
-    </script>
-
-        {% for l in lieuxRattache %}
-    <script>
-        {#'{{ s.ville.code_postal }}'#}
-        let infoLieu = {"ville" : '{{ l.ville.nom }}', "lieu" : '{{ l.nom }}',  "rue" : '{{ l.adresse }}', "code_postal" : '{{ l.ville.getCodePostal() }}'  }
-        tableauLieux.push(infoLieu);
-        console.log(i++);
-        // console.log(tableauLieux);
-    </script>
-        {% endfor %}
-
-    {{ app.user.site.nom }}
-    <div class="ui two column centered grid">
-        <div class="four column centered row">
-            <div class="column">
+    {{ dump(lieux_asso) }}
+    {{ dump(villes_asso) }}
 
     {{ form_start(form) }}
-                <div>
-                    {{ form_row(form.nom) }}
-                    {{ form_row(form.date_heure_debut) }}
-                    {{ form_row(form.date_limite_inscription) }}
-                    {{ form_row(form.nb_inscriptions_max) }}
-                    {{ form_row(form.duree) }}
-                    {{ form_row(form.infos_sortie) }}
-                </div>
-            </div>
+    {{ form_widget(form) }}
+    <button type="submit">Enregistrer la sortie</button>
+    {{ form_end(form) }}
 
-            <div class="column">
-                <div>
+    <script>
+        let test = document.getElementById("ville");
+        console.log(test);
+    </script>
+
+{#    <script>#}
+{#        //on récupère les champs select ville et lieu#}
+{#        let villes = document.getElementById("ville");#}
+{#        let lieux = document.getElementById("lieu");#}
+{#        let option;#}
+
+{#        //on parcourt le tableau de villes et on l'insère dans le select ville#}
+{#        {% for v in villes_asso %}#}
+{#                option = document.createElement('option');#}
+{#                option.value = '{{ v.id }}';#}
+{#                option.innerText = '{{ v.nom }}';#}
+{#                villes.appendChild(option);#}
+{#        {% endfor %}#}
+
+{#        //on parcourt le tableau de lieux et si le lieu est rattaché à la ville sélectionné, on insère le lieu dans le selec lieu#}
+{#        {% for l in lieux_asso %}#}
+{#            if('{{ l.ville.id }}' === villes.value) {#}
+{#                let option = document.createElement('option');#}
+{#                option.value = '{{ l.id }}';#}
+{#                option.innerText = '{{ l.nom }}';#}
+{#                lieux.appendChild(option);#}
+{#            }#}
+{#        {% endfor %}#}
+
+{#        //quand on sélectionne une ville, les lieux qui lui sont rattachés sont mis à jour dans le select lieu#}
+{#        villes.addEventListener("change", function() {#}
+
+{#            //on vide le select lieu#}
+{#            while(lieux.firstChild) {#}
+{#                lieux.removeChild(lieux.firstChild);#}
+{#            }#}
+
+{#            //on parcourt le tableau de lieux et si le lieu est rattaché à la ville sélectionné, on insère le lieu dans le selec lieu#}
+{#            {% for l in lieux_asso %}#}
+{#                if('{{ l.ville.id }}' === villes.value) {#}
+{#                    let option = document.createElement('option');#}
+{#                    option.value = '{{ l.id }}';#}
+{#                    option.innerText = '{{ l.nom }}';#}
+{#                    lieux.appendChild(option);#}
+{#                    console.log(option.value);#}
+{#                    console.log(typeof option.value);#}
+{#                }#}
+{#            {% endfor %}#}
+{#        });#}
+{#    </script>#}
+
+{% endblock %}
+
+
+
+
+{#{% block main %}#}
+{#    <script>#}
+{#        let tableauLieux = [];#}
+{#        let i = 0;#}
+
+{#    </script>#}
+
+{#        {% for l in lieuxRattache %}#}
+{#    <script>#}
+{#        #}{#'{{ s.ville.code_postal }}'#}
+{#        let infoLieu = {"ville" : '{{ l.ville.nom }}', "lieu" : '{{ l.nom }}',  "rue" : '{{ l.adresse }}', "code_postal" : '{{ l.ville.getCodePostal() }}'  }#}
+{#        tableauLieux.push(infoLieu);#}
+{#        console.log(i++);#}
+{#        // console.log(tableauLieux);#}
+{#    </script>#}
+{#        {% endfor %}#}
+
+{#    {{ app.user.site.nom }}#}
+{#    <div class="ui two column centered grid">#}
+{#        <div class="four column centered row">#}
+{#            <div class="column">#}
+
+{#    {{ form_start(form) }}#}
+{#                <div>#}
+{#                    {{ form_row(form.nom) }}#}
+{#                    {{ form_row(form.date_heure_debut) }}#}
+{#                    {{ form_row(form.date_limite_inscription) }}#}
+{#                    {{ form_row(form.nb_inscriptions_max) }}#}
+{#                    {{ form_row(form.duree) }}#}
+{#                    {{ form_row(form.infos_sortie) }}#}
+{#                </div>#}
+{#            </div>#}
+
+{#            <div class="column">#}
+{#                <div>#}
 {#                    {{ form_row(form.site) }}#}
-                    <div>
-                        <label for="">Ville organisatrice : </label>
-                        <p >{{ app.user.site.nom }}</p>
-                    </div>
+{#                    <div>#}
+{#                        <label for="">Ville organisatrice : </label>#}
+{#                        <p >{{ app.user.site.nom }}</p>#}
+{#                    </div>#}
 
-                    <i id="plus" class="plus circle icon" onclick="ajoutDuLieu()"></i>
-                    <div id="formulaireCache" onload="cacher()" style="display: none">
-                        <div>
+{#                    <i id="plus" class="plus circle icon" onclick="ajoutDuLieu()"></i>#}
+{#                    <div id="formulaireCache" onload="cacher()" style="display: none">#}
+{#                        <div>#}
 
-                            {{ form_row(form.lieu.ville.nom) }}
-                            {{ form_row(form.lieu.nom) }}
-                            {{ form_row(form.lieu.adresse) }}
-                            {{ form_row(form.lieu.ville.code_postal) }}
+{#                            {{ form_row(form.lieu.ville.nom) }}#}
+{#                            {{ form_row(form.lieu.nom) }}#}
+{#                            {{ form_row(form.lieu.adresse) }}#}
+{#                            {{ form_row(form.lieu.ville.code_postal) }}#}
 
 {#                            {{ form_row(form.lieu) }}#}
-                        </div>
-                    </div>
-                    <div>
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div>#}
 
-                        <div>
-                            {{ form_label(form.lieu.ville.code_postal, 'Code postal :') }}
-                            <p > </p>
-                        </div>
-                        {{ form_row(form.lieu.latitude) }}
-                        {{ form_row(form.lieu.longitude) }}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+{#                        <div>#}
+{#                            {{ form_label(form.lieu.ville.code_postal, 'Code postal :') }}#}
+{#                            <p > </p>#}
+{#                        </div>#}
+{#                        {{ form_row(form.lieu.latitude) }}#}
+{#                        {{ form_row(form.lieu.longitude) }}#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
 
-    <div class="ui two column centered grid">
-        <div class="seven column centered row">
-            <div class="column">
-                <a type="button" href="{{ path('creer_sortie') }}">
-                    <button class="big ui button blue">Enregistrer</button>
-                </a>
-            </div>
-            {{ form_end(form) }}
-            <div class="column">
-                <a type="button" href="{{ path('main') }}">
-                    <button class="big ui button blue">Publier la sortie</button>
-                </a>
-            </div>
+{#    <div class="ui two column centered grid">#}
+{#        <div class="seven column centered row">#}
+{#            <div class="column">#}
+{#                <a type="button" href="{{ path('creer_sortie') }}">#}
+{#                    <button class="big ui button blue">Enregistrer</button>#}
+{#                </a>#}
+{#            </div>#}
+{#            {{ form_end(form) }}#}
+{#            <div class="column">#}
+{#                <a type="button" href="{{ path('main') }}">#}
+{#                    <button class="big ui button blue">Publier la sortie</button>#}
+{#                </a>#}
+{#            </div>#}
 
-            <div class="column">
-                <a type="button" href="{{ path('main') }}">
-                    <button class="big ui button blue" >Annuler</button>
-                </a>
-            </div>
-        </div>
-    </div>
+{#            <div class="column">#}
+{#                <a type="button" href="{{ path('main') }}">#}
+{#                    <button class="big ui button blue" >Annuler</button>#}
+{#                </a>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
 
 
 {#{{ form_start(form2)}}#}
@@ -118,26 +184,26 @@
 {#        </a>#}
 
 
-    <script>
-        console.log(tableauLieux);
-        function cacher(){
-           document.getElementById("formulaireCache").style.visibility = "hidden";
-        }
+{#    <script>#}
+{#        console.log(tableauLieux);#}
+{#        function cacher(){#}
+{#           document.getElementById("formulaireCache").style.visibility = "hidden";#}
+{#        }#}
 
-        function ajoutDuLieu(){
-            console.log('J affiche');
-            document.getElementById("formulaireCache").style = "block";
-            let div = document.getElementById("plus");
-            let champFormulaire = document.createElement("sortie_lieu");
-            div.appendChild(champFormulaire);
-        }
+{#        function ajoutDuLieu(){#}
+{#            console.log('J affiche');#}
+{#            document.getElementById("formulaireCache").style = "block";#}
+{#            let div = document.getElementById("plus");#}
+{#            let champFormulaire = document.createElement("sortie_lieu");#}
+{#            div.appendChild(champFormulaire);#}
+{#        }#}
 
-        // function ajoutOption(){
-        //     let selectOption =  document.getElementById("ville_nom");
-        //     let option = document.createElement("option");
-        //     option.value = "Paris";
-        //     option.innerText = "paris";
-        //     selectOption.appendChild(option);
-        // }
-    </script>
-{% endblock %}
+{#        // function ajoutOption(){#}
+{#        //     let selectOption =  document.getElementById("ville_nom");#}
+{#        //     let option = document.createElement("option");#}
+{#        //     option.value = "Paris";#}
+{#        //     option.innerText = "paris";#}
+{#        //     selectOption.appendChild(option);#}
+{#        // }#}
+{#    </script>#}
+{#{% endblock %}#}
