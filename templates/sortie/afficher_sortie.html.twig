@@ -4,32 +4,69 @@
 
 {% block main %}
 
-    <h1>AFFICHER UNE SORTIE</h1>
+       <h1> <div class= "ui centered column grid"> AFFICHER UNE SORTIE </h1>
 
-    <div>
-        Nom de la sortie : {{ sortie.getNom() }}<br>
-        Date et heure de la sortie : {{ sortie.getDateHeureDebut()|date('d/m/Y à H:i') }}<br>
-        Date limite d'inscription : {{ sortie.getDateLimiteInscription()|date('d/m/Y') }}<br>
-        Nombre de places : {{ sortie.getNbInscriptionsMax() }} personnes<br>
-        Durée : {{ sortie.getDuree() }} min<br>
-        Description et infos : {{ sortie.getInfosSortie() }}<br>
+<div class="ui column">
+
+    <div class="ui centered grid">
+
+        <div style="line-height: 40px;display: flex">
+
+            <div style="text-align:left">
+                Nom de la sortie :<br>
+                Date et heure de la sortie :<br>
+                Date limite d'inscription :<br>
+                Nombre de places :<br>
+                Durée :<br>
+                Description et infos :<br>
+            </div>
+
+            <div style="text-align:left">
+                {{ sortie.getNom() }}<br>
+                {{ sortie.getDateHeureDebut()|date('d/m/Y à H:i') }}<br>
+                {{ sortie.getDateLimiteInscription()|date('d/m/Y') }}<br>
+                {{ sortie.getNbInscriptionsMax() }} personnes<br>
+                {{ sortie.getDuree() }} min<br>
+                {{ sortie.getInfosSortie() }}<br>
+
+            </div>
+
+        </div>
+
+        <div style="line-height: 40px;display: flex">
+
+            <div style="text-align:left">
+                Ville organisatrice :<br>
+                Ville :<br>
+                Lieu :<br>
+                Adresse :<br>
+                Code postal :<br>
+                Latitude :<br>
+                Longitude :<br>
+            </div>
+            <div style="text-align:left">
+                {{ sortie.getSite().getNom() }}<br>
+                {{ sortie.getLieu().getVille().getNom() }}<br>
+                {{ sortie.getLieu().getNom() }}<br>
+                {{ sortie.getLieu().getAdresse() }}<br>
+                {{ sortie.getLieu().getVille().getCodePostal() }}<br>
+                {{ sortie.getLieu().getLatitude() }}<br>
+                {{ sortie.getLieu().getLongitude() }} <br>
+            </div>
+
+        </div>
+
     </div>
 
-    <div>
-        Ville organisatrice : {{ sortie.getSite().getNom() }}<br>
-        Ville : {{ sortie.getLieu().getVille().getNom() }}<br>
-        Lieu : {{ sortie.getLieu().getNom() }}<br>
-        Adresse : {{ sortie.getLieu().getAdresse() }}<br>
-        Code postal : {{ sortie.getLieu().getVille().getCodePostal() }}<br>
-        Latitude : {{ sortie.getLieu().getLatitude() }}<br>
-        Longitude : {{ sortie.getLieu().getLongitude() }}
+    <div class="ui centered column grid">
+
+        <button class="ui button"><a type="button" href="{{ path('main') }}">Retour</a></button>
+        <br>
+        <button class="ui button"> <a type="button" href="{{ path('modifier_sortie', {'id': sortie.id}) }}"> Modifier la sortie</a></button>
     </div>
-
-    <a type="button" href="{{ path('main') }}">Retour</a><br>
-
     {# si l'utilisateur loggé est l'organisateur, alors il peut modifier la sortie #}
     {% if sortie.organisateur.username == app.user.username %}
-        <a type="button" href="{{ path('modifier_sortie', {'id': sortie.id}) }}">Modifier la sortie</a>
+
     {% endif %}
 
 {% endblock %}
