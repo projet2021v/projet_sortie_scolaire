@@ -41,18 +41,32 @@ class SortieType extends AbstractType
 
             ->add('infos_sortie', null, ['label' => 'Description et infos : '])
 
-            //->add('site', null, ['choice_label' => 'nom', 'label' => 'Ville organisatrice'])
+            ->add('site', null, ['choice_label' => 'nom', 'label' => 'Ville organisatrice'])
 
-            ->add('lieu', EntityType::class, [
-                'class' => Lieu::class,
-                'choice_label' => 'nom',
-                'label' => 'Lieu : '
-            ])
-            ->add('ville', EntityType::class, [
-                'class' => Ville::class,
-                'choice_label' => 'nom',
+//            ->add('ville', EntityType::class, [
+//                'class' => Ville::class,
+//                'choice_label' => 'nom',
+//                'label' => 'Ville : '
+//            ])
+
+//            ->add('lieu', EntityType::class, [
+//                'class' => Lieu::class,
+//                'choice_label' => 'nom',
+//                'label' => 'Lieu : '
+//            ])
+
+            ->add('ville', ChoiceType::class, [
+//                'class' => Ville::class,
+//                'choice_label' => 'nom',
                 'label' => 'Ville : '
             ])
+
+            ->add('lieu', ChoiceType::class, [
+//                'class' => Lieu::class,
+//                'choice_label' => 'nom',
+                'label' => 'Lieu : '
+            ])
+
 
 
 //            ->add('etat')

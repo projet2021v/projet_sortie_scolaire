@@ -6,10 +6,8 @@ use App\Data\SearchData;
 use App\Entity\Etat;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\User\UserInterface;
-use function mysql_xdevapi\getSession;
 use Doctrine\ORM\EntityManagerInterface;
 
 

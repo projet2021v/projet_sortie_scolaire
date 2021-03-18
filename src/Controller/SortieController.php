@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Data\CreerSortieData;
 use App\Entity\Etat;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
@@ -13,8 +14,11 @@ use App\Form\SortieType;
 use App\Form\VilleType;
 
 use App\Repository\LieuRepository;
+use App\Repository\ParticipantRepository;
+use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
 use App\Repository\EtatRepository;
+use App\Repository\VilleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,12 +33,15 @@ class SortieController extends AbstractController
      * //     *
      * @param Request $request
      * @param LieuRepository $repo_lieu
+     * @param VilleRepository $repo_ville
      * @return Response
      * //
      */
-    public function creer_sortie(Request $request, LieuRepository $repo_lieu): Response
+    public function creer_sortie(Request $request, SiteRepository $repo_site, LieuRepository $repo_lieu, VilleRepository $repo_ville, EtatRepository $repo_etat, ParticipantRepository $repo_part, UserInterface $user): Response
     {
-        $form = $this->createForm(SortieType::class);
+        $sortie = new CreerSortieData();
+
+        $form = $this->createForm(CreerSortieType::class, $sortie);
 
         $lieux = $repo_lieu->findAll();
         $lieux_asso = [];
@@ -42,15 +49,57 @@ class SortieController extends AbstractController
             $lieux_asso[$l->getNom()] = $l;
         }
 
-//        $form
-//            ->add('lieux', ChoiceType::class, [
-//                'label' => 'Lieu : ',
-//                'choices' => $lieux_asso,
-//            ]);
+        $villes = $repo_ville->findAll();
+        $villes_asso = [];
+        foreach ($villes as $v) {
+            $villes_asso[$v->getNom()] = $v;
+        }
+
+        $form
+        ->add('ville', ChoiceType::class, [
+//                'class' => Ville::class,
+//                'choice_label' => 'nom',
+            'label' => 'Ville : ',
+            'choices' => $villes_asso
+        ])
+
+        ->add('lieu', ChoiceType::class, [
+//                'class' => Lieu::class,
+//                'choice_label' => 'nom',
+            'label' => 'Lieu : ',
+            'choices' => $lieux_asso
+        ])
+        ;
+
+
+        $form->handleRequest($request);
+
+
+        if($form->isSubmitted() && $form->isValid()) {
+
+            $nouvelleSortie = new Sortie();
+            $nouvelleSortie->setNom($sortie->nom);
+            $nouvelleSortie->setDateHeureDebut($sortie->date_heure_debut);
+            $nouvelleSortie->setDuree($sortie->duree);
+            $nouvelleSortie->setDateLimiteInscription($sortie->date_limite_inscription);
+            $nouvelleSortie->setNbInscriptionsMax($sortie->nb_inscriptions_max);
+            $nouvelleSortie->setInfosSortie($sortie->infos_sortie);
+            $nouvelleSortie->setLieu($sortie->lieu);
+            $nouvelleSortie->setEtat($repo_etat->find(1));
+            $nouvelleSortie->setSite($user->getSite());
+            $nouvelleSortie->setOrganisateur($repo_part->find($user->getId()));
+
+            $this->getDoctrine()->getManager()->persist($nouvelleSortie);
+
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('main');
+        }
 
         return $this->render('sortie/creer_sortie.html.twig', [
             'form' => $form->createView(),
-            'lieux_asso' => $lieux_asso
+            'lieux_asso' => $lieux_asso,
+            'villes_asso' => $villes_asso,
         ]);
     }
 

@@ -13,40 +13,63 @@
 
 {% block main %}
     {{ dump(lieux_asso) }}
-
-{#    {{ form_start(form) }}#}
-{#    {{ form_row(form.nom) }}#}
-{#    {{ form_row(form.lieux) }}#}
-{#    {{ form_end(form) }}#}
+    {{ dump(villes_asso) }}
 
     {{ form_start(form) }}
     {{ form_widget(form) }}
+    <button type="submit">Enregistrer la sortie</button>
     {{ form_end(form) }}
 
-    <div id="rue">
-
-    </div>
-
     <script>
-        let rue = document.getElementById("rue");
-        let ville = document.getElementById("sortie_ville");
-        let test = {{ lieux_asso }};
-
-        console.log(ville.value);
-
-        for (const l in test) {
-            for (const x in l) {
-                console.log(x);
-            }
-        }
-
-        ville.addEventListener("change", function() {
-
-        })
-
-
-
+        let test = document.getElementById("ville");
+        console.log(test);
     </script>
+
+{#    <script>#}
+{#        //on récupère les champs select ville et lieu#}
+{#        let villes = document.getElementById("ville");#}
+{#        let lieux = document.getElementById("lieu");#}
+{#        let option;#}
+
+{#        //on parcourt le tableau de villes et on l'insère dans le select ville#}
+{#        {% for v in villes_asso %}#}
+{#                option = document.createElement('option');#}
+{#                option.value = '{{ v.id }}';#}
+{#                option.innerText = '{{ v.nom }}';#}
+{#                villes.appendChild(option);#}
+{#        {% endfor %}#}
+
+{#        //on parcourt le tableau de lieux et si le lieu est rattaché à la ville sélectionné, on insère le lieu dans le selec lieu#}
+{#        {% for l in lieux_asso %}#}
+{#            if('{{ l.ville.id }}' === villes.value) {#}
+{#                let option = document.createElement('option');#}
+{#                option.value = '{{ l.id }}';#}
+{#                option.innerText = '{{ l.nom }}';#}
+{#                lieux.appendChild(option);#}
+{#            }#}
+{#        {% endfor %}#}
+
+{#        //quand on sélectionne une ville, les lieux qui lui sont rattachés sont mis à jour dans le select lieu#}
+{#        villes.addEventListener("change", function() {#}
+
+{#            //on vide le select lieu#}
+{#            while(lieux.firstChild) {#}
+{#                lieux.removeChild(lieux.firstChild);#}
+{#            }#}
+
+{#            //on parcourt le tableau de lieux et si le lieu est rattaché à la ville sélectionné, on insère le lieu dans le selec lieu#}
+{#            {% for l in lieux_asso %}#}
+{#                if('{{ l.ville.id }}' === villes.value) {#}
+{#                    let option = document.createElement('option');#}
+{#                    option.value = '{{ l.id }}';#}
+{#                    option.innerText = '{{ l.nom }}';#}
+{#                    lieux.appendChild(option);#}
+{#                    console.log(option.value);#}
+{#                    console.log(typeof option.value);#}
+{#                }#}
+{#            {% endfor %}#}
+{#        });#}
+{#    </script>#}
 
 {% endblock %}
 
