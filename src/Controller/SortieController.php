@@ -32,8 +32,12 @@ class SortieController extends AbstractController
      * //     * @Route("/sortie", name="creer_sortie")
      * //     *
      * @param Request $request
+     * @param SiteRepository $repo_site
      * @param LieuRepository $repo_lieu
      * @param VilleRepository $repo_ville
+     * @param EtatRepository $repo_etat
+     * @param ParticipantRepository $repo_part
+     * @param UserInterface $user
      * @return Response
      * //
      */
