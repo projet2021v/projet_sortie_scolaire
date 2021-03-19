@@ -7,9 +7,12 @@
         <div class="alert alert-danger" role="alert">{{ flashError }}</div>
     {% endfor %}
 
+    <div class="ui one column centered grid">
     <h1>Register</h1>
+    </div>
 
-    <div class="ui form one column centered grid">
+    <div class="ui one column centered grid">
+        <div class="ui form">
     {{ form_start(registrationForm) }}
 
         {{ form_row(registrationForm.username) }}
@@ -30,6 +33,7 @@
         <br>
         <button type="submit" class="ui button">Register</button>
     {{ form_end(registrationForm) }}
+        </div>
     </div>
 
 
