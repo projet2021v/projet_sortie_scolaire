@@ -8,7 +8,7 @@
         <h1>{{ sortie.getNom()|upper }}</h1>
     </div>
 
-{% if sortie.getMotifAnnulation() != null %}
+    {% if sortie.getMotifAnnulation() != null %}
     <div class="ui four column centered grid" style="margin-top: 1rem">
         <div class="column">
 
@@ -21,57 +21,58 @@
         </div>
     </div>
 
-{% endif %}
-
-<div class="ui column" style="margin-top: 1rem">
-
-    <div class="ui centered grid">
-
-        <div style="line-height: 40px;display: flex">
-
-            <div style="text-align:left">
-                <span class="ui header">Nom de la sortie : </span>{{ sortie.getNom() }}<br>
-                <span class="ui header">Date et heure de la sortie : </span>{{ sortie.getDateHeureDebut()|date('d/m/Y à H:i') }}<br>
-                <span class="ui header">Date limite d'inscription : </span>{{ sortie.getDateLimiteInscription()|date('d/m/Y') }}<br>
-                <span class="ui header">Nombre de places : </span>{{ sortie.getNbInscriptionsMax() }} personnes<br>
-                <span class="ui header">Durée : </span>{{ sortie.getDuree() }} min<br>
-                <span class="ui header">Description et infos : </span>{{ sortie.getInfosSortie() }}<br>
-            </div>
-
-        </div>
-
-        <div style="line-height: 40px;display: flex">
-
-            <div style="text-align:left">
-                <span class="ui header">Ville organisatrice : </span>{{ sortie.getSite().getNom() }}<br>
-                <span class="ui header">Ville : </span>{{ sortie.getLieu().getVille().getNom() }}<br>
-                <span class="ui header">Lieu : </span>{{ sortie.getLieu().getNom() }}<br>
-                <span class="ui header">Adresse : </span>{{ sortie.getLieu().getAdresse() }}<br>
-                <span class="ui header">Code postal : </span>{{ sortie.getLieu().getVille().getCodePostal() }}<br>
-                <span class="ui header">Latitude : </span>{{ sortie.getLieu().getLatitude() }}&nbsp;&nbsp;|&nbsp;&nbsp;
-                <span class="ui header">Longitude : </span>{{ sortie.getLieu().getLongitude() }}
-            </div>
-
-        </div>
-
-    </div>
-</div>
-
-<div class="ui centered column grid" style="margin-top: 1rem">
-
-    <a type="button" class="ui big blue button" href="{{ path('main') }}">Retour</a>
-    <br>
-    {# si la sortie a été annulée, on ne peut plus la modifier #}
-    {# si l'utilisateur loggé est l'organisateur, alors il peut modifier la sortie #}
-    {% if sortie.getMotifAnnulation() == null and sortie.getOrganisateur() == app.user %}
-    <a type="button" class="ui big orange button" href="{{ path('modifier_sortie', {'id': sortie.id}) }}"> Modifier la sortie</a>
     {% endif %}
-</div>
 
-{% if listeInscriptions|length > 0 %}
-    <div class="ui four column grid" style="margin-top: 1rem">
-        <div class="column">
-            <h4 class="header">Liste des participants inscrits :</h4>
+    <div class="ui column" style="margin-top: 1rem">
+
+        <div class="ui centered grid">
+
+            <div style="line-height: 40px;display: flex">
+
+                <div style="text-align:left">
+                    <span class="ui header">Nom de la sortie : </span>{{ sortie.getNom() }}<br>
+                    <span class="ui header">Date et heure de la sortie : </span>{{ sortie.getDateHeureDebut()|date('d/m/Y à H:i') }}<br>
+                    <span class="ui header">Date limite d'inscription : </span>{{ sortie.getDateLimiteInscription()|date('d/m/Y') }}<br>
+                    <span class="ui header">Nombre de places : </span>{{ sortie.getNbInscriptionsMax() }} personnes<br>
+                    <span class="ui header">Durée : </span>{{ sortie.getDuree() }} min<br>
+                    <span class="ui header">Description et infos : </span>{{ sortie.getInfosSortie() }}<br>
+                </div>
+
+            </div>
+
+            <div style="line-height: 40px;display: flex">
+
+                <div style="text-align:left">
+                    <span class="ui header">Ville organisatrice : </span>{{ sortie.getSite().getNom() }}<br>
+                    <span class="ui header">Ville : </span>{{ sortie.getLieu().getVille().getNom() }}<br>
+                    <span class="ui header">Lieu : </span>{{ sortie.getLieu().getNom() }}<br>
+                    <span class="ui header">Adresse : </span>{{ sortie.getLieu().getAdresse() }}<br>
+                    <span class="ui header">Code postal : </span>{{ sortie.getLieu().getVille().getCodePostal() }}<br>
+                    <span class="ui header">Latitude : </span>{{ sortie.getLieu().getLatitude() }}&nbsp;&nbsp;|&nbsp;&nbsp;
+                    <span class="ui header">Longitude : </span>{{ sortie.getLieu().getLongitude() }}
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="ui centered column grid" style="margin-top: 1rem">
+
+        <a type="button" class="ui big blue button" href="{{ path('main') }}">Retour</a>
+        <br>
+        {# si la sortie a été annulée, on ne peut plus la modifier #}
+        {# si l'utilisateur loggé est l'organisateur, alors il peut modifier la sortie #}
+        {% if sortie.getMotifAnnulation() == null and sortie.getOrganisateur() == app.user %}
+        <a type="button" class="ui big orange button" href="{{ path('modifier_sortie', {'id': sortie.id}) }}"> Modifier la sortie</a>
+        {% endif %}
+    </div>
+
+    {% if listeInscriptions|length > 0 %}
+    <div class="ui one centered column grid" style="margin-top: 3rem">
+        <div class="ui four wide column">
+
+            <h2 class="ui big header">Liste des participants inscrits :</h2>
             <table class="ui celled striped table">
                 <thead>
                     <tr>
@@ -87,7 +88,8 @@
                     {% endfor %}
                 </tbody>
             </table>
+
         </div>
     </div>
-{% endif %}
+    {% endif %}
 {% endblock %}
