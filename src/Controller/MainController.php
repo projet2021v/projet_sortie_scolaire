@@ -40,7 +40,20 @@ class MainController extends AbstractController
 //    }
 
     /**
-     * @Route("/", name="main")
+     * @Route("/", name="secu")
+     * @return Response
+     */
+    public function secu(): Response
+    {
+        if($this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('main');
+        } else {
+            return $this->redirectToRoute('app_login');
+        }
+    }
+
+    /**
+     * @Route("/main", name="main")
      * @param SortieRepository $repoSortie
      * @param SiteRepository $repoSite
      * @param Request $request
