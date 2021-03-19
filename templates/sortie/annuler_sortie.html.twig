@@ -5,14 +5,14 @@
 {% block main %}
 
     <div class="ui one centered column grid">
-        <div class="four wide column">
+        <div class="five wide column">
 
             <h1 class="ui center aligned header">ANNULER UNE SORTIE</h1>
 
             <div><span class="ui header">Nom de la sortie : </span>{{ sortie.getNom() }}</div>
             <div><span class="ui header">Date de la sortie : </span>{{ sortie.getDateHeureDebut()|date('d/m/Y') }}</div>
             <div><span class="ui header">Ville organisatrice : </span>{{ sortie.getSite().getNom() }}</div>
-            <div><span class="ui header">Lieu : {{ sortie.getLieu().getNom() }} </span>{{ sortie.getLieu().getVille().getCodePostal() }} {{ sortie.getLieu().getVille().getNom() }}</div>
+            <div><span class="ui header">Lieu : </span>{{ sortie.getLieu().getNom() }}, {{ sortie.getLieu().getVille().getCodePostal() }} {{ sortie.getLieu().getVille().getNom() }}</div>
 
             <div class="ui form">
                 {{ form_start(form) }}
